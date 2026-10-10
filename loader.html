@@ -1,56 +1,143 @@
-<div class="portfolio-loader" id="portfolioLoader" role="status" aria-label="Loading portfolio">
-  <div class="loader-inner">
-    <div class="loader-top">
-      <span>SAHIL.</span>
-      <span>UX/UI · PRODUCT</span>
-    </div>
+<div class="portfolio-loader" id="portfolioLoader" role="status" aria-label="Loading Sahil Sowad Portfolio">
+  <div class="loader-bg-ambient" aria-hidden="true"></div>
+  <div class="loader-grid-plane" aria-hidden="true"></div>
 
-    <div class="loader-stage" aria-hidden="true">
-      <div class="loader-product active" data-loader-product="0">
-        <div class="loader-label"><span>01</span><span>MOBILE APP</span></div>
-        <div class="app-preview">
-          <div class="app-notch"></div>
-          <div class="app-header"></div>
-          <div class="app-card large"></div>
-          <div class="app-row"><i></i><i></i><i></i></div>
-          <div class="app-card small"></div>
-          <div class="app-nav"><i></i><i></i><i></i><i></i></div>
-        </div>
+  <div class="loader-container">
+    <header class="loader-header">
+      <div class="loader-brand">
+        <span class="brand-name">SAHIL<span>.</span></span>
+        <span class="brand-role">UX/UI · PRODUCT</span>
       </div>
+      <button class="loader-skip-btn" id="loaderSkipBtn" type="button" aria-label="Skip loader animation">
+        <span>SKIP</span>
+        <kbd>ESC</kbd>
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </header>
 
-      <div class="loader-product" data-loader-product="1">
-        <div class="loader-label"><span>02</span><span>WEB EXPERIENCE</span></div>
-        <div class="web-preview">
-          <div class="web-top"></div>
-          <div class="web-sidebar"></div>
-          <div class="web-content">
-            <div class="web-heading"></div>
-            <div class="web-line"></div>
-            <div class="web-line short"></div>
-            <div class="web-grid"><i></i><i></i><i></i></div>
+    <div class="loader-scene-viewport" id="loaderSceneViewport" aria-hidden="true">
+      <div class="loader-3d-stage" id="loader3dStage">
+        <!-- 3D Gyroscopic Orbital Rings -->
+        <div class="loader-orbit orbit-primary">
+          <div class="orbit-particle"></div>
+        </div>
+        <div class="loader-orbit orbit-secondary">
+          <div class="orbit-particle"></div>
+        </div>
+
+        <!-- Exploded 3D Interface Stack -->
+        <div class="loader-stack">
+          <!-- Layer 01: UX Wireframe Architecture (Base) -->
+          <div class="loader-card layer-ux active" data-loader-layer="0">
+            <div class="card-glass-glow"></div>
+            <div class="card-meta">
+              <span class="card-num">01</span>
+              <span class="card-title">WIREFRAME ARCHITECTURE</span>
+            </div>
+            <div class="card-content-ux">
+              <div class="wf-nodes-flow">
+                <span class="wf-dot active"></span>
+                <span class="wf-line"></span>
+                <span class="wf-dot"></span>
+                <span class="wf-line"></span>
+                <span class="wf-dot"></span>
+              </div>
+              <div class="wf-layout-grid">
+                <div class="wf-col left"></div>
+                <div class="wf-col right">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Layer 02: Design System & UI Components (Middle) -->
+          <div class="loader-card layer-ui" data-loader-layer="1">
+            <div class="card-glass-glow"></div>
+            <div class="card-meta">
+              <span class="card-num">02</span>
+              <span class="card-title">DESIGN SYSTEM & UI</span>
+            </div>
+            <div class="card-content-ui">
+              <div class="ui-mock-search">
+                <span class="search-icon"></span>
+                <span class="search-bar"></span>
+              </div>
+              <div class="ui-mock-chips">
+                <span class="chip-active"></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="ui-mock-cards">
+                <div class="mock-item"><i></i></div>
+                <div class="mock-item accent"><i></i></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Layer 03: Scalable Product & Analytics (Top) -->
+          <div class="loader-card layer-product" data-loader-layer="2">
+            <div class="card-glass-glow"></div>
+            <div class="card-meta">
+              <span class="card-num">03</span>
+              <span class="card-title">SCALABLE PRODUCT</span>
+            </div>
+            <div class="card-content-product">
+              <div class="product-top-row">
+                <div class="product-metric-pill">
+                  <span class="pulse-dot"></span>
+                  <strong>99.8%</strong>
+                </div>
+                <div class="product-badge">SAAS</div>
+              </div>
+              <div class="product-chart-bars">
+                <span style="--bar-h: 38%;"></span>
+                <span style="--bar-h: 68%;"></span>
+                <span style="--bar-h: 50%;"></span>
+                <span style="--bar-h: 88%;"></span>
+                <span style="--bar-h: 62%;"></span>
+                <span style="--bar-h: 96%;"></span>
+                <span style="--bar-h: 75%;"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Central 3D Diamond / Holographic Core -->
+          <div class="loader-gem-cluster">
+            <div class="gem-cube">
+              <div class="gem-face f-front"></div>
+              <div class="gem-face f-back"></div>
+              <div class="gem-face f-right"></div>
+              <div class="gem-face f-left"></div>
+              <div class="gem-face f-top"></div>
+              <div class="gem-face f-bottom"></div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="loader-product" data-loader-product="2">
-        <div class="loader-label"><span>03</span><span>SAAS PRODUCT</span></div>
-        <div class="saas-preview">
-          <div class="saas-sidebar"><i></i><i></i><i></i><i></i></div>
-          <div class="saas-main">
-            <div class="saas-header"><i></i><i></i></div>
-            <div class="saas-stats"><i></i><i></i><i></i></div>
-            <div class="saas-chart"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-          </div>
+    <footer class="loader-footer">
+      <div class="loader-hud-bar">
+        <div class="loader-status-info">
+          <span class="loader-phase-tag" id="loaderPhaseTag">PHASE 01 / 03</span>
+          <strong class="loader-status-msg" id="loaderStatusMsg">COMPOSING UX ARCHITECTURE</strong>
+        </div>
+        <div class="loader-percent-num" id="loaderPercentNum">0%</div>
+      </div>
+
+      <div class="loader-progress-track">
+        <div class="loader-progress-bar" id="loaderProgressBar">
+          <div class="progress-laser-tip"></div>
         </div>
       </div>
-    </div>
 
-    <div class="loader-bottom">
-      <div class="loader-progress"><div class="loader-progress-bar" id="loaderProgressBar"></div></div>
-      <div class="loader-status">
-        <span id="loaderStatus">BUILDING EXPERIENCES</span>
-        <strong id="loaderPercent">0%</strong>
+      <div class="loader-footer-hint">
+        <span class="hint-desktop">MOVE CURSOR TO ROTATE 3D SCENE · CLICK OR ESC TO SKIP</span>
+        <span class="hint-mobile">TAP ANYWHERE TO SKIP</span>
       </div>
-    </div>
+    </footer>
   </div>
 </div>
