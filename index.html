@@ -533,7 +533,7 @@
     .experience-control{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:var(--panel);color:var(--text);font-size:20px;cursor:pointer;transition:background .25s,border-color .25s,transform .25s}
     .experience-control:hover{background:var(--accent);border-color:var(--accent);color:var(--bg);transform:translateY(-2px)}
     .experience-control:focus-visible,.job:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-    .timeline{overflow:hidden;position:relative}
+    .timeline{overflow:hidden;position:relative;touch-action:pan-y}
     .timeline-track{position:relative;display:flex;align-items:center;gap:18px;width:max-content;padding:22px 8px 18px;transition:transform .7s cubic-bezier(.22,1,.36,1);will-change:transform}
     .job{
       flex:0 0 min(78vw,850px);min-height:360px;padding:34px;border:1px solid var(--line);border-radius:20px;
@@ -543,6 +543,10 @@
       transition:opacity .45s,transform .55s cubic-bezier(.22,1,.36,1),border-color .35s,box-shadow .35s,background .35s;
     }
     .job.is-active{opacity:1;transform:scale(1);border-color:rgba(255,255,255,.48);box-shadow:0 24px 55px rgba(0,0,0,.28),0 0 36px rgba(255,255,255,.08)}
+    .job.swipe-from-left{animation:experienceEnterFromLeft .45s cubic-bezier(.22,1,.36,1) both}
+    .job.swipe-from-right{animation:experienceEnterFromRight .45s cubic-bezier(.22,1,.36,1) both}
+    @keyframes experienceEnterFromLeft{from{opacity:.45;transform:translateX(-48px) scale(.96)}to{opacity:1;transform:translateX(0) scale(1)}}
+    @keyframes experienceEnterFromRight{from{opacity:.45;transform:translateX(48px) scale(.96)}to{opacity:1;transform:translateX(0) scale(1)}}
     .job:hover{border-color:rgba(255,255,255,.32)}
     .job-date{grid-column:1/-1;font-size:11px;color:var(--accent);font-weight:800;letter-spacing:.16em}
     .job-company{font-size:12px;color:var(--muted);font-weight:700}
@@ -552,6 +556,9 @@
     .job li+li{margin-top:7px}
     .job li::marker{color:var(--accent)}
     .job-role{grid-column:2;grid-row:2;align-self:end;padding:9px 12px;border:1px solid var(--line);border-radius:999px;color:var(--soft);font-size:11px;text-align:center;font-weight:800;line-height:1.4}
+    @media(prefers-reduced-motion:reduce){
+      .job.swipe-from-left,.job.swipe-from-right{animation-duration:.01ms}
+    }
 
     /* ---------- Numbers ---------- */
     .numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;perspective:1400px}
@@ -1429,16 +1436,24 @@
         var previousExperience = experienceCarousel.querySelector('[data-experience-prev]');
         var nextExperience = experienceCarousel.querySelector('[data-experience-next]');
         var activeExperience = 0;
+        var swipeStart = null;
+        var suppressExperienceClickUntil = 0;
 
-        function selectExperience(index, shouldScroll){
+        function selectExperience(index, shouldScroll, swipeDirection){
           activeExperience = (index + experienceCards.length) % experienceCards.length;
           experienceCards.forEach(function(card, cardIndex){
             var selected = cardIndex === activeExperience;
+            card.classList.remove('swipe-from-left', 'swipe-from-right');
             card.classList.toggle('is-active', selected);
             card.setAttribute('aria-current', selected ? 'true' : 'false');
             card.setAttribute('aria-label', (cardIndex + 1) + ' of ' + experienceCards.length);
             card.setAttribute('tabindex', selected ? '0' : '-1');
           });
+          if(swipeDirection){
+            var activeCard = experienceCards[activeExperience];
+            void activeCard.offsetWidth;
+            activeCard.classList.add(swipeDirection === 'next' ? 'swipe-from-right' : 'swipe-from-left');
+          }
           experienceCount.textContent = ('0' + (activeExperience + 1)).slice(-2) + ' / ' + ('0' + experienceCards.length).slice(-2);
 
           if(shouldScroll){
@@ -1451,6 +1466,26 @@
 
         previousExperience.addEventListener('click', function(){ selectExperience(activeExperience - 1, true); });
         nextExperience.addEventListener('click', function(){ selectExperience(activeExperience + 1, true); });
+        experienceTrack.addEventListener('pointerdown', function(event){
+          if(!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+          swipeStart = {x:event.clientX, y:event.clientY, pointerId:event.pointerId};
+        });
+        experienceTrack.addEventListener('pointerup', function(event){
+          if(!swipeStart || event.pointerId !== swipeStart.pointerId) return;
+          var deltaX = event.clientX - swipeStart.x;
+          var deltaY = event.clientY - swipeStart.y;
+          swipeStart = null;
+          if(Math.abs(deltaX) < 50 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+          suppressExperienceClickUntil = Date.now() + 500;
+          selectExperience(activeExperience + (deltaX < 0 ? 1 : -1), true, deltaX < 0 ? 'next' : 'previous');
+        });
+        experienceTrack.addEventListener('pointercancel', function(){ swipeStart = null; });
+        experienceTrack.addEventListener('click', function(event){
+          if(Date.now() > suppressExperienceClickUntil) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          suppressExperienceClickUntil = 0;
+        }, true);
         experienceCards.forEach(function(card, cardIndex){
           card.addEventListener('click', function(){ selectExperience(cardIndex, true); });
         });
