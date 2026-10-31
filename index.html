@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="is-loading">
+<html lang="en" class="is-loading" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -65,6 +65,22 @@
            linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
       background-size:56px 56px;
       mask-image:linear-gradient(to bottom,black,transparent 85%);
+    }
+
+    /* ---------- Interactive starfield background ---------- */
+    .starfield{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+    }
+
+    /* keep every piece of content above the starfield */
+    #smooth-wrapper{
+      position:relative;
+      z-index:1;
     }
     a{color:inherit;text-decoration:none}
     .wrap{width:min(calc(100% - 40px),var(--max));margin:auto}
@@ -136,8 +152,8 @@
     }
     .navcta:hover{background:#DADADA;color:var(--bg);box-shadow:0 0 24px rgba(255,255,255,.18)}
 
-    .hero{min-height:100vh;display:grid;place-items:center;padding:150px 0 90px;position:relative}
-    .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:60px;align-items:center}
+    .hero{min-height:100vh;display:grid;place-items:center;padding:150px 0 90px;position:relative;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:60px;align-items:center;position:relative;z-index:2}
     .eyebrow{display:inline-flex;align-items:center;gap:9px;color:#D6D6D6;font-size:12px;text-transform:uppercase;letter-spacing:.14em;margin-bottom:25px;font-weight:700}
     .dot{width:7px;height:7px;background:var(--accent);border-radius:50%;box-shadow:0 0 18px var(--accent);animation:pulse 2.2s ease-in-out infinite}
     @keyframes pulse{50%{box-shadow:0 0 26px var(--accent);transform:scale(1.25)}}
@@ -163,6 +179,125 @@
     .btn:hover{border-color:var(--accent);box-shadow:0 0 26px rgba(255,255,255,.16)}
     .meta-row{display:flex;gap:34px;margin-top:42px;color:var(--muted);font-size:12px;font-weight:600}
     .meta-row strong{display:block;color:var(--text);font-size:15px;margin-bottom:2px;font-weight:800}
+
+    /* ---------- Hero radial orbit (endless media ring) ---------- */
+    .hero-orbit{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 6%,#000 94%,transparent 100%);
+      mask-image:linear-gradient(to bottom,transparent 0,#000 6%,#000 94%,transparent 100%);
+    }
+
+    /* Soft paper-to-void fades keep chips from fighting the headline
+       and the interactive 3D sculpture on the right. */
+    .hero-orbit::before{
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      right:-10%;
+      width:64%;
+      z-index:3;
+      background:radial-gradient(
+        ellipse 70% 82% at 54% 50%,
+        rgba(12,12,12,.97),
+        rgba(12,12,12,.8) 58%,
+        transparent 100%
+      );
+    }
+    .hero-orbit::after{
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      left:-14%;
+      width:82%;
+      z-index:3;
+      background:radial-gradient(
+        ellipse 66% 82% at 38% 52%,
+        rgba(12,12,12,.97),
+        rgba(12,12,12,.72) 60%,
+        rgba(12,12,12,.28) 82%,
+        transparent 100%
+      );
+    }
+
+    .orbit-ring{
+      --r:540px;               /* ring radius */
+      position:absolute;
+      top:50%;
+      left:50%;
+      width:0;
+      height:0;
+      animation:orbit-spin var(--dur, 90s) linear infinite;
+      animation-delay:var(--d, 0s);
+    }
+
+    .orbit-ring::before{       /* faint guide circle */
+      content:"";
+      position:absolute;
+      top:50%;
+      left:50%;
+      width:calc(var(--r) * 2);
+      aspect-ratio:1;
+      border:1px solid var(--line);
+      border-radius:50%;
+      transform:translate(-50%, -50%);
+    }
+
+    .orbit-chip{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:rotate(var(--a)) translateX(var(--r)) rotate(calc(-1 * var(--a)));
+    }
+
+    .orbit-chip > i{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-width:84px;
+      height:46px;
+      padding:0 15px;
+      overflow:hidden;
+      translate:-50% -50%;
+      border:1px solid rgba(255,255,255,.16);
+      background:#151515;
+      box-shadow:
+        0 1px 3px rgba(0,0,0,.22),
+        0 8px 22px rgba(0,0,0,.34),
+        0 18px 44px rgba(0,0,0,.28);
+      color:var(--text);
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:.625rem;
+      font-weight:500;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      white-space:nowrap;
+      /* counter-rotation keeps each chip label upright while the ring spins */
+      animation:orbit-counter var(--dur, 90s) linear infinite;
+      animation-delay:var(--d, 0s);
+    }
+
+    /* chip color variants (brand-driven, monochrome) */
+    .orbit-chip.oc-tag > i{border-color:var(--line);background:rgba(255,255,255,.035);box-shadow:none;color:var(--muted)}
+    .orbit-chip.oc-dot > i{min-width:0;width:10px;height:10px;padding:0;border:0;background:var(--accent);box-shadow:0 0 18px rgba(255,255,255,.45)}
+    .oc-top > i{border:0;background:var(--accent);color:var(--bg);box-shadow:0 10px 30px rgba(255,255,255,.14)}
+    .oc-d05 > i{border:0;background:#171717;color:#F5F5F5}
+    .oc-valr > i{border:0;background:#1D1D1D;color:#F5F5F5}
+    .oc-cl > i{background:#E9E9E9;color:#0C0C0C}
+    .oc-iun > i{border:0;background:#101010;color:#C9C9C9}
+    .oc-star > i{border:0;background:transparent;box-shadow:none;color:var(--accent);font-size:.8125rem;letter-spacing:.04em}
+    .oc-soft{opacity:.5;filter:blur(2px)}
+
+    @keyframes orbit-spin{to{transform:rotate(360deg)}}
+    @keyframes orbit-counter{to{transform:rotate(-360deg)}}
+
+    @media (max-width:1100px){.orbit-ring{--r:440px}}
+    @media (max-width:900px){.hero-orbit{display:none}}
+
 
     /* ---------- 3D UX/UI hero element (360° Interactive & Volumetric) ---------- */
     .ux3d-stage{
@@ -359,8 +494,8 @@
     a.project{display:block;color:inherit;text-decoration:none}
     .project:hover{border-color:rgba(255,255,255,.34);box-shadow:0 35px 80px rgba(0,0,0,.5),0 0 46px rgba(255,255,255,.07)}
     .project.large{grid-column:span 2;min-height:470px}
-    .project-bg{position:absolute;inset:0;overflow:hidden}
-    .project-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(12,12,12,.95) 100%)}
+    .project-bg{position:absolute;inset:12px;overflow:hidden;isolation:isolate;border-radius:var(--radius)}
+    .project-bg:after{content:"";position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,transparent 30%,rgba(12,12,12,.95) 100%)}
     .mock{
       position:absolute;width:56%;height:64%;left:22%;top:12%;border:1px solid rgba(255,255,255,.16);
       border-radius:22px;background:linear-gradient(135deg,#222222,#101010);
@@ -371,6 +506,37 @@
     .project:hover .mock{transform:rotateX(46deg) rotateZ(-6deg) rotateY(12deg) translateY(-10px);box-shadow:0 55px 90px rgba(0,0,0,.55)}
     .mock.mint{background:linear-gradient(135deg,#1E1E1E,#101010)}
     .mock.orange{background:linear-gradient(135deg,#292929,#121212)}
+
+    /* ---------- Top 5 thumbnail: B&W base, colour fills in on hover ---------- */
+    .top5-shot{
+      position:absolute;inset:0;width:100%;height:100%;display:block;
+      object-fit:cover;object-position:50% 45%;
+      transform:scale(1.001);
+      transition:transform 1.2s cubic-bezier(.22,1,.36,1);
+    }
+    .top5-shot--color{
+      z-index:1;
+      -webkit-mask-image:linear-gradient(to top,#000 0%,#000 82%,transparent 100%);
+      mask-image:linear-gradient(to top,#000 0%,#000 82%,transparent 100%);
+      -webkit-mask-repeat:no-repeat;
+      mask-repeat:no-repeat;
+      -webkit-mask-position:50% 100%;
+      mask-position:50% 100%;
+      -webkit-mask-size:100% 0%;
+      mask-size:100% 0%;
+      transition:
+        -webkit-mask-size 1.15s cubic-bezier(.22,1,.36,1),
+        mask-size 1.15s cubic-bezier(.22,1,.36,1),
+        transform 1.2s cubic-bezier(.22,1,.36,1);
+    }
+    .project:hover .top5-shot--color,
+    .project:focus-visible .top5-shot--color,
+    .project:active .top5-shot--color{
+      -webkit-mask-size:100% 118%;
+      mask-size:100% 118%;
+    }
+    .project:hover .top5-shot{transform:scale(1.03)}
+    .project.top5 .project-year{color:#3D3D3D;text-shadow:0 1px 0 rgba(255,255,255,.3)}
     .project-info{position:absolute;left:28px;right:28px;bottom:25px;z-index:2}
     .project-tag{font-size:10px;color:#D6D6D6;text-transform:uppercase;letter-spacing:.16em;font-weight:800}
     .project h3{font-size:32px;letter-spacing:-.04em;margin-top:6px;font-weight:900;transition:transform .4s}
@@ -431,7 +597,7 @@
       font-size: clamp(18px, 2.5vw, 30px);
       line-height: 1.2;
       letter-spacing: -.04em;
-      color: #858585;
+      color: #9A9A9A;
       font-weight:400;
       transition: color .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
     }
@@ -442,7 +608,7 @@
     }
 
     .impact-line.is-revealed {
-      opacity: .42;
+      opacity: .55;
       transform: translateY(0);
     }
 
@@ -504,6 +670,220 @@
       letter-spacing: .18em;
     }
 
+    /* ---------- Impact portrait / split layout ---------- */
+    .impact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+      gap: clamp(36px, 5vw, 72px);
+      align-items: start;
+    }
+
+    .impact-content {
+      min-width: 0;
+    }
+
+    .impact-layout .impact-list {
+      margin-top: 0;
+    }
+
+    .impact-layout .impact-line p {
+      font-size: clamp(18px, 2vw, 26px);
+    }
+
+    .impact-portrait {
+      position: sticky;
+      top: 118px;
+      align-self: start;
+    }
+
+    .impact-portrait-card {
+      position: relative;
+      display: block;
+      margin: 0;
+      aspect-ratio: 960 / 1088;
+      overflow: hidden;
+      border-radius: 30px;
+      background: #F4F1EA;
+      border: 1px solid rgba(255, 255, 255, .16);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, .5), 0 0 0 1px rgba(0, 0, 0, .2) inset;
+      isolation: isolate;
+      outline: none;
+      transition: transform .6s cubic-bezier(.22, 1, .36, 1), border-color .4s, box-shadow .4s;
+    }
+
+    .impact-portrait-card:hover,
+    .impact-portrait-card:focus-visible {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, .4);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, .6), 0 0 36px rgba(255, 255, 255, .08);
+    }
+
+    .impact-portrait-card:focus-visible {
+      outline: 1px solid rgba(255, 255, 255, .55);
+      outline-offset: 5px;
+    }
+
+    .impact-portrait-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      filter: brightness(.97) sepia(.03) contrast(1.02);
+      transform: scale(1.001);
+      transition: transform 1.2s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .impact-portrait-card:hover img,
+    .impact-portrait-card:focus img,
+    .impact-portrait-card:focus-visible img {
+      transform: scale(1.025);
+    }
+
+    /* B&W base first, colour portrait revealed with a soft upward fill */
+    .impact-portrait-card .dp-color {
+      z-index: 1;
+      -webkit-mask-image: linear-gradient(to top, #000 0%, #000 82%, transparent 100%);
+      mask-image: linear-gradient(to top, #000 0%, #000 82%, transparent 100%);
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: 50% 100%;
+      mask-position: 50% 100%;
+      -webkit-mask-size: 100% 0%;
+      mask-size: 100% 0%;
+      transition:
+        -webkit-mask-size 1.15s cubic-bezier(.22, 1, .36, 1),
+        mask-size 1.15s cubic-bezier(.22, 1, .36, 1),
+        transform 1.2s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .impact-portrait-card:hover .dp-color,
+    .impact-portrait-card:focus .dp-color,
+    .impact-portrait-card:focus-visible .dp-color,
+    .impact-portrait-card:active .dp-color {
+      -webkit-mask-size: 100% 118%;
+      mask-size: 100% 118%;
+    }
+
+    .impact-portrait-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      z-index: 4;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .18));
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 1.15s cubic-bezier(.22, 1, .36, 1);
+      pointer-events: none;
+    }
+
+    .impact-portrait-card:hover::before,
+    .impact-portrait-card:focus::before,
+    .impact-portrait-card:focus-visible::before {
+      transform: scaleY(1);
+    }
+
+    .impact-portrait-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent 56%, rgba(12, 12, 12, .08) 70%, rgba(12, 12, 12, .78) 100%);
+    }
+
+    .impact-portrait-meta {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 20px;
+      z-index: 3;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      color: #F5F5F5;
+    }
+
+    .impact-portrait-name {
+      display: block;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+
+    .impact-portrait-role {
+      display: block;
+      margin-top: 4px;
+      color: rgba(245, 245, 245, .7);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .impact-portrait-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      color: rgba(245, 245, 245, .72);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      transition: opacity .3s, transform .3s;
+    }
+
+    .impact-portrait-hint .hint-tap {
+      display: none;
+    }
+
+    @media (hover: none) {
+      .impact-portrait-hint .hint-hover {
+        display: none;
+      }
+
+      .impact-portrait-hint .hint-tap {
+        display: inline;
+      }
+    }
+
+    .impact-portrait-hint i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: conic-gradient(#f5a623, #ff5c5c, #7a9eff, #5cff9d, #f5a623);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .22);
+    }
+
+    .impact-portrait-card:hover .impact-portrait-hint,
+    .impact-portrait-card:focus .impact-portrait-hint,
+    .impact-portrait-card:focus-visible .impact-portrait-hint {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+
+    @media (max-width: 980px) {
+      .impact-layout {
+        grid-template-columns: 1fr;
+        gap: 42px;
+      }
+
+      .impact-portrait {
+        position: relative;
+        top: auto;
+        order: -1;
+        width: min(100%, 460px);
+        margin: 0 auto;
+      }
+    }
+
     @media (max-width: 700px) {
       .impact-section {
         padding: 85px 0;
@@ -521,8 +901,22 @@
         padding-right:20px;
       }
 
-      .impact-line p {
+      .impact-layout .impact-line p {
         font-size: 22px;
+      }
+
+      .impact-portrait-card {
+        border-radius: 24px;
+      }
+
+      .impact-portrait-meta {
+        left: 18px;
+        right: 18px;
+        bottom: 16px;
+      }
+
+      .impact-portrait-name {
+        font-size: 16px;
       }
 
       .impact-footer {
@@ -671,12 +1065,16 @@
     }
     @media(prefers-reduced-motion:reduce){
       *,*:before,*:after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+      .orbit-ring,.orbit-chip > i{animation:none}
     }
   </style>
 <base target="_blank">
 </head>
 
 <body class="is-loading">
+  <!-- Interactive starfield background -->
+  <canvas class="starfield" id="starfield" aria-hidden="true"></canvas>
+
   <!-- Portfolio 3D Spatial Loader -->
   <div id="portfolioLoaderMount">
     <div class="portfolio-loader" id="portfolioLoader" role="status" aria-label="Loading Sahil Sowad Portfolio">
@@ -842,6 +1240,31 @@
   <div id="smooth-wrapper">
     <main>
       <section class="hero" id="hero">
+        <div class="hero-orbit" aria-hidden="true">
+          <div class="orbit-ring" style="--dur: 96s; --d: -30s">
+            <span class="orbit-chip oc-top" style="--a: 0deg"><i>UX/UI</i></span>
+            <span class="orbit-chip oc-tag" style="--a: 30deg"><i>Product Design</i></span>
+            <span class="orbit-chip oc-d05" style="--a: 60deg"><i>SaaS</i></span>
+            <span class="orbit-chip oc-dot" style="--a: 90deg"><i></i></span>
+            <span class="orbit-chip oc-valr" style="--a: 120deg"><i>Dashboards</i></span>
+            <span class="orbit-chip oc-cl" style="--a: 150deg"><i>Design Systems</i></span>
+            <span class="orbit-chip oc-star" style="--a: 180deg"><i>20+ ★</i></span>
+            <span class="orbit-chip oc-tag oc-soft" style="--a: 210deg"><i>Web · Mobile</i></span>
+            <span class="orbit-chip oc-top" style="--a: 240deg"><i>3+ YRS</i></span>
+            <span class="orbit-chip oc-dot" style="--a: 270deg"><i></i></span>
+            <span class="orbit-chip oc-iun" style="--a: 300deg"><i>Prototyping</i></span>
+            <span class="orbit-chip oc-tag" style="--a: 330deg"><i>B2B</i></span>
+          </div>
+
+          <div class="orbit-ring" style="--dur: 68s; --d: -12s; --r: 350px">
+            <span class="orbit-chip oc-star" style="--a: 0deg"><i>20+ ★</i></span>
+            <span class="orbit-chip oc-tag" style="--a: 72deg"><i>Figma</i></span>
+            <span class="orbit-chip oc-d05" style="--a: 144deg"><i>Research</i></span>
+            <span class="orbit-chip oc-dot" style="--a: 216deg"><i></i></span>
+            <span class="orbit-chip oc-cl" style="--a: 288deg"><i>Handoff</i></span>
+          </div>
+        </div>
+
         <div class="wrap hero-grid">
           <div class="reveal from-left">
             <h1>Designing digital products that <span class="dim">make sense.</span></h1>
@@ -975,56 +1398,74 @@
             </p>
           </div>
 
-          <div class="impact-list">
-            <div class="impact-line" tabindex="0">
-              <span class="impact-number">01</span>
-              <p>
-                I bring a <strong>UX-first mindset</strong> that keeps user needs,
-                business goals and usability connected throughout the product journey.
-              </p>
+          <div class="impact-layout">
+            <div class="impact-content">
+              <div class="impact-list">
+                <div class="impact-line" tabindex="0">
+                  <span class="impact-number">01</span>
+                  <p>
+                    I bring a <strong>UX-first mindset</strong> that keeps user needs,
+                    business goals and usability connected throughout the product journey.
+                  </p>
+                </div>
+
+                <div class="impact-line" tabindex="0">
+                  <span class="impact-number">02</span>
+                  <p>
+                    I can turn <strong>complex requirements into simple experiences</strong>
+                    that are easier for users to understand and easier for teams to build.
+                  </p>
+                </div>
+
+                <div class="impact-line" tabindex="0">
+                  <span class="impact-number">03</span>
+                  <p>
+                    I contribute through <strong>clear communication and collaboration</strong>,
+                    working closely with developers, product managers, stakeholders and clients.
+                  </p>
+                </div>
+
+                <div class="impact-line" tabindex="0">
+                  <span class="impact-number">04</span>
+                  <p>
+                    I think beyond individual screens by creating
+                    <strong>consistent, scalable and reusable design solutions</strong>
+                    that can grow with the product.
+                  </p>
+                </div>
+
+                <div class="impact-line" tabindex="0">
+                  <span class="impact-number">05</span>
+                  <p>
+                    I take ownership from <strong>problem definition to final execution</strong>,
+                    while continuously looking for opportunities to improve the product and process.
+                  </p>
+                </div>
+
+                <div class="impact-line" tabindex="0">
+                  <span class="impact-number">06</span>
+                  <p>
+                    My goal is to become a <strong>valuable long-term design partner</strong>
+                    who helps the organization create better products, stronger experiences
+                    and measurable business value.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div class="impact-line" tabindex="0">
-              <span class="impact-number">02</span>
-              <p>
-                I can turn <strong>complex requirements into simple experiences</strong>
-                that are easier for users to understand and easier for teams to build.
-              </p>
-            </div>
-
-            <div class="impact-line" tabindex="0">
-              <span class="impact-number">03</span>
-              <p>
-                I contribute through <strong>clear communication and collaboration</strong>,
-                working closely with developers, product managers, stakeholders and clients.
-              </p>
-            </div>
-
-            <div class="impact-line" tabindex="0">
-              <span class="impact-number">04</span>
-              <p>
-                I think beyond individual screens by creating
-                <strong>consistent, scalable and reusable design solutions</strong>
-                that can grow with the product.
-              </p>
-            </div>
-
-            <div class="impact-line" tabindex="0">
-              <span class="impact-number">05</span>
-              <p>
-                I take ownership from <strong>problem definition to final execution</strong>,
-                while continuously looking for opportunities to improve the product and process.
-              </p>
-            </div>
-
-            <div class="impact-line" tabindex="0">
-              <span class="impact-number">06</span>
-              <p>
-                My goal is to become a <strong>valuable long-term design partner</strong>
-                who helps the organization create better products, stronger experiences
-                and measurable business value.
-              </p>
-            </div>
+            <aside class="impact-portrait reveal from-right">
+              <figure class="impact-portrait-card" tabindex="0" role="img" aria-label="Portrait of Sahil Sowad, UX/UI and product designer. Hover, focus, or tap to reveal the color portrait.">
+                <img class="dp-base" src="DP B.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <img class="dp-color" src="Dp.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <div class="impact-portrait-meta">
+                  <div>
+                    <span class="impact-portrait-name">Sahil Sowad</span>
+                    <span class="impact-portrait-role">UX/UI · Product Designer</span>
+                  </div>
+                  <span class="impact-portrait-hint"><i></i><span class="hint-hover">Hover to reveal</span><span class="hint-tap">Tap to reveal</span></span>
+                </div>
+              </figure>
+            </aside>
           </div>
 
           <div class="impact-footer">
@@ -1039,15 +1480,18 @@
         <div class="wrap">
           <div class="section-head reveal from-left">
             <div>
-              <div class="kicker">Selected work</div>
-              <h2>Products, systems<br>& interfaces.</h2>
+              <div class="kicker">Selected Projects, Real Impact.</div>
+              <h2>Work in Action.</h2>
             </div>
-            <p class="section-intro">A selection of live projects listed in my resume. Detailed case-study content can be added as each project is documented.</p>
+            <p class="section-intro">Explore live digital products I’ve designed, from mobile apps and websites to complex platforms and dashboards.</p>
           </div>
 
           <div class="projects">
             <a class="project large reveal scale-in" href="https://play.google.com/store/apps/details?id=com.valr.valr&pcampaignid=web_share" target="_blank" rel="noreferrer" data-tilt>
-              <div class="project-bg"><div class="mock"></div></div>
+              <div class="project-bg">
+                <img class="top5-shot" src="VALRPRO B.png" alt="Valr Pro v2 app interface in black and white" loading="lazy" decoding="async">
+                <img class="top5-shot top5-shot--color" src="VALRPRO.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+              </div>
               <span class="project-year">2026</span>
               <div class="project-info">
                 <div class="project-tag">App + Web</div>
@@ -1059,7 +1503,10 @@
             </a>
 
             <a class="project reveal scale-in d1" href="https://www.cleftinject.org/" target="_blank" rel="noreferrer" data-tilt>
-              <div class="project-bg"><div class="mock mint"></div></div>
+              <div class="project-bg">
+                <img class="top5-shot" src="CleftInject B.png" alt="CleftInject web interface in black and white" loading="lazy" decoding="async">
+                <img class="top5-shot top5-shot--color" src="CleftInject.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+              </div>
               <span class="project-year">2025</span>
               <div class="project-info">
                 <div class="project-tag">Web + Admin</div>
@@ -1070,8 +1517,11 @@
               <div class="glare"></div>
             </a>
 
-            <a class="project reveal scale-in d2" href="https://top5app.fr/" target="_blank" rel="noreferrer" data-tilt>
-              <div class="project-bg"><div class="mock orange"></div></div>
+            <a class="project top5 reveal scale-in d2" href="https://top5app.fr/" target="_blank" rel="noreferrer" data-tilt>
+              <div class="project-bg">
+                <img class="top5-shot" src="Top5 black.jpg" alt="Top 5 app interface overview in black and white" loading="lazy" decoding="async">
+                <img class="top5-shot top5-shot--color" src="Top5.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+              </div>
               <span class="project-year">2025</span>
               <div class="project-info">
                 <div class="project-tag">App + Admin</div>
@@ -1083,7 +1533,10 @@
             </a>
 
             <a class="project reveal scale-in d1" href="https://www.d05eng.com/" target="_blank" rel="noreferrer" data-tilt>
-              <div class="project-bg"><div class="mock"></div></div>
+              <div class="project-bg">
+                <img class="top5-shot" src="D05 B.png" alt="D05 web experience in black and white" loading="lazy" decoding="async">
+                <img class="top5-shot top5-shot--color" src="D05.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+              </div>
               <span class="project-year">2025</span>
               <div class="project-info">
                 <div class="project-tag">Web</div>
@@ -1095,7 +1548,10 @@
             </a>
 
             <a class="project reveal scale-in d2" href="https://contentintegritypro.com/" target="_blank" rel="noreferrer" data-tilt>
-              <div class="project-bg"><div class="mock mint"></div></div>
+              <div class="project-bg">
+                <img class="top5-shot" src="Content B.png" alt="Content Pro web interface in black and white" loading="lazy" decoding="async">
+                <img class="top5-shot top5-shot--color" src="Content.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+              </div>
               <span class="project-year">2025</span>
               <div class="project-info">
                 <div class="project-tag">Web + Admin</div>
@@ -1788,6 +2244,112 @@
         syncActiveNav();
         updateImpactHighlights();
       });
+    })();
+  </script>
+
+  <!-- Interactive starfield background -->
+  <script>
+    (function(){
+      'use strict';
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      function initStarfield(){
+        var canvas = document.getElementById('starfield');
+        if (!canvas || canvas.dataset.bound) return;
+        canvas.dataset.bound = 'true';
+        var ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        var animation = 0;
+        var stars = [];
+        var width = 0;
+        var height = 0;
+        var pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+
+        var palette = function(){
+          return document.documentElement.dataset.theme === 'dark'
+            ? ['242, 241, 238', '242, 241, 238', '122, 158, 255', '242, 241, 238'] // cream + blue on dark
+            : ['16, 16, 20', '16, 16, 20', '47, 107, 255', '16, 16, 20'];         // ink + blue on paper
+        };
+
+        var build = function(){
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width * dpr;
+          canvas.height = height * dpr;
+          canvas.style.width = width + 'px';
+          canvas.style.height = height + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+          var count = Math.min(230, Math.round((width * height) / 9000));
+          stars = Array.from({ length: count }, function(){
+            return {
+              x: Math.random() * width,
+              y: Math.random() * height,
+              r: 0.4 + Math.random() * 1.25,
+              depth: 0.25 + Math.random() * 0.75,       // parallax depth
+              base: 0.1 + Math.random() * 0.3,          // resting alpha
+              phase: Math.random() * Math.PI * 2,
+              speed: 0.3 + Math.random() * 0.9,         // twinkle speed
+              ci: Math.floor(Math.random() * 4)         // palette slot
+            };
+          });
+        };
+
+        var draw = function(time){
+          ctx.clearRect(0, 0, width, height);
+          pointer.tx += (pointer.x - pointer.tx) * 0.045;  // eased parallax
+          pointer.ty += (pointer.y - pointer.ty) * 0.045;
+          var colors = palette();
+
+          for (var i = 0; i < stars.length; i++) {
+            var star = stars[i];
+            var twinkle = reducedMotion.matches
+              ? 0
+              : 0.5 + 0.5 * Math.sin(star.phase + (time / 1000) * star.speed);
+            var drift = (time / 1000) * 2 * star.depth;
+            var x = star.x + pointer.tx * star.depth;
+            var y = (star.y + pointer.ty * star.depth - drift) % height;
+
+            ctx.beginPath();
+            ctx.arc(x, (y + height) % height, star.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(' + colors[star.ci] + ', ' + (star.base + twinkle * 0.26) + ')';
+            ctx.fill();
+          }
+        };
+
+        var loop = function(time){
+          draw(time);
+          animation = requestAnimationFrame(loop);
+        };
+
+        var reducedLoop = function(){
+          draw(0); // single static frame, no animation
+        };
+
+        var resize = function(){
+          build();
+          if (reducedMotion.matches) reducedLoop();
+        };
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('pointermove', function(event){
+          // normalize to -1..1 around center for the parallax offset
+          pointer.x = (event.clientX / width - 0.5) * 58;
+          pointer.y = (event.clientY / height - 0.5) * 58;
+        }, { passive: true });
+
+        build();
+        if (reducedMotion.matches) {
+          window.addEventListener('load', reducedLoop);
+          reducedLoop();
+        } else {
+          animation = requestAnimationFrame(loop);
+        }
+      }
+
+      initStarfield();
     })();
   </script>
   <script src="loader.js"></script>
