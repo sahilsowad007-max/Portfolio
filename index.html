@@ -382,9 +382,11 @@
     .ux3d-scene{
       position:relative;width:440px;height:440px;display:grid;place-items:center;
       transform-style:preserve-3d;-webkit-transform-style:preserve-3d;
-      will-change:transform;transition:transform .08s linear;
+      will-change:transform;
+      /* JS drives transform every RAF frame; CSS transition would fight it and
+         make the hero 3D scene feel stuck/mushy, so keep it transition-free. */
     }
-    .ux3d-stage.is-dragging .ux3d-scene{transition:none}
+    .ux3d-stage.is-dragging .ux3d-scene{will-change:transform}
 
     /* Perspective Grid Base Floor */
     .ux3d-grid{
@@ -2767,8 +2769,15 @@
         window.addEventListener('pointerup', onPointerEnd);
         window.addEventListener('pointercancel', onPointerEnd);
 
-        // 60FPS RAF Orbit Physics Loop
+        // 60FPS RAF Orbit Physics Loop (paused in background tabs)
+        var orbitPaused = false;
+        document.addEventListener('visibilitychange', function(){
+          orbitPaused = document.hidden;
+          if(!orbitPaused) orbitPhysicsStep();
+        }, {passive:true});
+
         (function orbitPhysicsStep() {
+          if(orbitPaused) return;
           if (isDragging || isHovering) {
             rotX += (targetRotX - rotX) * 0.22;
             rotY += (targetRotY - rotY) * 0.22;

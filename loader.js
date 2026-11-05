@@ -25,7 +25,7 @@
     ];
 
     var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var duration = prefersReduced ? 350 : 3600; // 3.6s duration giving ~1.2s per 3D phase
+    var duration = prefersReduced ? 350 : 2000; // 2s duration giving ~660ms per 3D phase
     var startTime = Date.now();
     var progressTimer = null;
     var rafTiltId = null;

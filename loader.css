@@ -664,7 +664,8 @@ body.is-loading {
   border-radius: 99px;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.25) 0%, #FFFFFF 100%);
   box-shadow: 0 0 14px rgba(255, 255, 255, 0.6);
-  transition: width 0.08s linear;
+  /* JS updates width every 30ms; a CSS transition would lag behind and make
+     the loading bar feel stuck, so keep it transition-free. */
 }
 
 .progress-laser-tip {
