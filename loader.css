@@ -190,7 +190,8 @@ body.is-loading {
   place-items: center;
   transform: rotateX(calc(55deg + var(--tilt-x, 0deg)))
              rotateZ(calc(-28deg + var(--tilt-y, 0deg)));
-  transition: transform 0.16s cubic-bezier(0.22, 1, 0.36, 1);
+  /* JS updates --tilt-x/--tilt-y every RAF frame; a CSS transition would
+     lag behind and make the loader tilt feel stuck, so keep it free. */
   will-change: transform;
 }
 

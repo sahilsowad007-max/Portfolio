@@ -27,7 +27,7 @@
     var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var duration = prefersReduced ? 350 : 2000; // 2s duration giving ~660ms per 3D phase
     var startTime = Date.now();
-    var progressTimer = null;
+    var progressRafId = null;
     var rafTiltId = null;
     var isDone = false;
 
@@ -66,7 +66,7 @@
       if(isDone) return;
       isDone = true;
 
-      if(progressTimer) clearInterval(progressTimer);
+      if(progressRafId) cancelAnimationFrame(progressRafId);
       if(rafTiltId) cancelAnimationFrame(rafTiltId);
       window.removeEventListener('pointermove', onPointerMove);
 
@@ -106,7 +106,7 @@
       });
 
       if(progress >= 1){
-        clearInterval(progressTimer);
+        cancelAnimationFrame(progressRafId);
         window.setTimeout(cleanup, 120);
       }
     }
@@ -130,8 +130,13 @@
       }
     }, { once: true });
 
-    progressTimer = setInterval(renderLoader, 30);
-    renderLoader();
+    /* ---------- Smooth Progress Animation Loop (60fps via RAF) ---------- */
+    function renderLoop(){
+      if(isDone) return;
+      renderLoader();
+      progressRafId = requestAnimationFrame(renderLoop);
+    }
+    renderLoop();
   }
 
   /* Pre-mounted markup support + fetch fallback */
