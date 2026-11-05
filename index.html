@@ -1033,6 +1033,80 @@
     @media(max-width:1000px){.process{grid-template-columns:repeat(2,1fr)}.process:before{display:none}}
     @media(max-width:560px){.process{grid-template-columns:1fr}.step h3{margin-top:24px}}
 
+    /* ---------- Behance Reel ---------- */
+    .reel{position:relative;overflow:hidden;padding:10px 0 20px;
+      -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+      mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+    .reel{cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+    .reel.dragging{cursor:grabbing}
+    .reel.dragging .reel-card{pointer-events:none}
+    .reel img{-webkit-user-drag:none}
+    .reel-track{display:flex;gap:22px;width:max-content;will-change:transform}
+    .reel-card{
+      position:relative;flex:0 0 auto;width:340px;border:1px solid var(--line);border-radius:var(--radius);
+      background:var(--panel);overflow:hidden;text-decoration:none;color:inherit;
+      transition:transform .6s cubic-bezier(.22,1,.36,1),border-color .35s,box-shadow .35s;
+    }
+    .reel-card:nth-child(even){margin-top:26px}
+    .reel-card:hover{transform:translateY(-10px) scale(1.03);border-color:rgba(255,255,255,.36);box-shadow:0 28px 55px rgba(0,0,0,.45),0 0 28px rgba(255,255,255,.06)}
+    .reel-shot{aspect-ratio:4/3;overflow:hidden;background:var(--bg2)}
+    .reel-shot img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1);transition:filter .6s,transform .8s cubic-bezier(.22,1,.36,1)}
+    .reel-card:hover .reel-shot img{filter:none;transform:scale(1.08)}
+    .reel-meta{display:flex;justify-content:space-between;align-items:center;padding:16px 20px}
+    .reel-meta h3{font-size:16px;font-weight:900;letter-spacing:-.02em}
+    .reel-meta span{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:color .3s}
+    .reel-card:hover .reel-meta span{color:var(--text)}
+    .reel-cta{display:flex;justify-content:center;margin-top:30px}
+    @media(max-width:560px){.reel-card{width:260px}}
+    @media(prefers-reduced-motion:reduce){.reel{overflow-x:auto;-webkit-mask-image:none;mask-image:none;cursor:auto}}
+
+    /* ---------- Reviews: Kind Words ---------- */
+    .faces{display:flex;flex-wrap:wrap;justify-content:center;gap:34px 30px;padding:20px 0 10px}
+    .face{position:relative;animation:face-float 6s ease-in-out infinite}
+    .face:nth-child(3n+2){margin-top:26px}
+    .face:nth-child(2n){animation-delay:-2s}.face:nth-child(3n){animation-delay:-4s}
+    @keyframes face-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+    .face:hover,.face.open{animation-play-state:paused;z-index:5}
+    .face-btn{
+      display:block;width:104px;height:104px;border-radius:50%;padding:0;cursor:pointer;
+      border:1px solid var(--line);background:var(--bg2);overflow:hidden;color:inherit;
+      transition:transform .5s cubic-bezier(.22,1,.36,1),border-color .35s,box-shadow .35s;
+    }
+    .face-btn svg{display:block;width:100%;height:100%;filter:grayscale(1);transition:filter .4s}
+    .face:hover .face-btn,.face.open .face-btn,.face-btn:focus-visible{
+      transform:scale(1.12);border-color:rgba(255,255,255,.6);box-shadow:0 0 0 6px rgba(255,255,255,.06),0 18px 40px rgba(0,0,0,.5);outline:none;
+    }
+    .face-card{
+      position:absolute;left:50%;bottom:calc(100% + 16px);width:min(330px,86vw);padding:20px 22px;
+      border:1px solid rgba(255,255,255,.22);border-radius:22px;background:rgba(23,23,23,.96);
+      -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 28px 60px rgba(0,0,0,.55);
+      opacity:0;visibility:hidden;pointer-events:none;
+      transform:translateX(calc(-50% + var(--dx,0px))) translateY(10px) scale(.95);
+      transition:opacity .3s,transform .45s cubic-bezier(.22,1,.36,1),visibility 0s .3s;
+    }
+    .face-card:before{content:"";position:absolute;left:0;right:0;bottom:-24px;height:24px}
+    .face.below .face-card{bottom:auto;top:calc(100% + 16px);transform:translateX(calc(-50% + var(--dx,0px))) translateY(-10px) scale(.95)}
+    .face.below .face-card:before{bottom:auto;top:-24px}
+    .face:hover .face-card,.face.open .face-card,.face-btn:focus-visible + .face-card{
+      opacity:1;visibility:visible;pointer-events:auto;transition-delay:0s;
+      transform:translateX(calc(-50% + var(--dx,0px))) translateY(0) scale(1);
+    }
+    .stars{display:inline-flex;align-items:center;gap:6px;color:var(--text);letter-spacing:.14em;font-size:14px}
+    .face-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+    .face-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:var(--text);font-weight:900;letter-spacing:.02em;margin-top:14px}
+    .face-flag{font-size:13px}
+    .face-geo{color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .face-card p{margin-top:10px;color:var(--soft);font-size:14px;line-height:1.6;font-weight:500}
+    .face-card small{display:flex;align-items:center;gap:7px;margin-top:12px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+    .name-hl{background:linear-gradient(120deg,#fff,#cfcfcf);color:#0C0C0C;padding:1px 7px;border-radius:6px;font-weight:900}
+    .face-name{color:var(--text);font-weight:900;letter-spacing:.02em}
+    .face-geo{color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .face-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .face-chips span{padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:var(--panel);font-size:10px;font-weight:800;letter-spacing:.04em;color:var(--soft)}
+    .reviews-note{text-align:center;color:var(--muted);font-size:12px;margin-top:34px;font-weight:600}
+    @media(max-width:560px){.faces{gap:26px 18px}.face-btn{width:76px;height:76px}}
+    @media(prefers-reduced-motion:reduce){.face{animation:none}.face-card,.face-btn{transition:none}}
+
     /* ---------- Skills ---------- */
     .skills{display:grid;grid-template-columns:1fr 1fr;gap:14px;perspective:1400px}
     .skillbox{
@@ -1293,9 +1367,11 @@
     <div class="navlinks">
       <a href="#impact" data-nav>Impact</a>
       <a href="#work" data-nav>Work</a>
-      <a href="#experience" data-nav>Experience</a>
+      <a href="#reel" data-nav>My Pixels</a>
       <a href="#process" data-nav>Process</a>
+      <a href="#experience" data-nav>Experience</a>
       <a href="#skills" data-nav>Skills</a>
+      <a href="#reviews" data-nav>Testimonial</a>
       <a href="#contact" data-nav>Contact</a>
     </div>
     <a class="navcta" href="https://drive.google.com/file/d/1iwbK-OKLRN2dE-Tgjl9zfczfjTPur07t/view?usp=sharing" target="_blank" rel="noreferrer" data-magnetic>See Resume ↗</a>
@@ -1540,6 +1616,22 @@
         </div>
       </section>
 
+      <section>
+        <div class="wrap">
+          <div class="section-head reveal from-left">
+            <div>
+              <div class="kicker">Proof of work</div>
+              <h2>Built through<br>real delivery.</h2>
+            </div>
+          </div>
+          <div class="numbers">
+            <div class="number-card reveal scale-in d1" data-tilt><div class="number">3+</div><p>Years designing web, mobile and SaaS products.</p><div class="glare"></div></div>
+            <div class="number-card reveal scale-in d2" data-tilt><div class="number">20+</div><p>Five-star reviews from international Fiverr clients.</p><div class="glare"></div></div>
+            <div class="number-card reveal scale-in d3" data-tilt><div class="number">35+</div><p>International freelance projects completed.</p><div class="glare"></div></div>
+          </div>
+        </div>
+      </section>
+
       <section id="work">
         <div class="wrap">
           <div class="section-head reveal from-left">
@@ -1629,6 +1721,88 @@
         </div>
       </section>
 
+      <section id="reel">
+        <div class="wrap">
+          <div class="section-head reveal from-left">
+            <div>
+              <div class="kicker">Straight from Behance</div>
+              <h2>The Pixel<br>Parade.</h2>
+            </div>
+            <p class="section-intro">A rolling reel of designs from my Behance. Hover to pause, tap a card to open the full case study.</p>
+          </div>
+        </div>
+        <div class="reel reveal" aria-label="Behance design showcase">
+          <div class="reel-track">
+            <a class="reel-card" href="https://www.behance.net/gallery/254313769/Portfolio-Website-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/portfolio-website.jpg" alt="Portfolio Website Design" loading="lazy"></div><div class="reel-meta"><h3>Portfolio Website Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/254310197/Service-Website-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/service-website.jpg" alt="Service Website Design" loading="lazy"></div><div class="reel-meta"><h3>Service Website Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/254309391/Exploring-App-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/exploring-app.jpg" alt="Exploring App Design" loading="lazy"></div><div class="reel-meta"><h3>Exploring App Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/225357675/UX-Case-Study-Streemo" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/streemo.jpg" alt="UX Case Study - Streemo" loading="lazy"></div><div class="reel-meta"><h3>UX Case Study - Streemo</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/254345893/Saas-Dashboard-Ui" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/saas-dashboard.jpg" alt="Saas Dashboard Ui" loading="lazy"></div><div class="reel-meta"><h3>Saas Dashboard Ui</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/226641797/Ux-Case-Study-Stayvia" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/stayvia.jpg" alt="Ux Case Study - Stayvia" loading="lazy"></div><div class="reel-meta"><h3>Ux Case Study - Stayvia</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/254964705/Doctor-Consultation-App-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/doctor-consultation.jpg" alt="Doctor Consultation App Design" loading="lazy"></div><div class="reel-meta"><h3>Doctor Consultation App Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/254222419/SWIMSTARTS-App-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/swimstarts.jpg" alt="SWIMSTARTS App Design" loading="lazy"></div><div class="reel-meta"><h3>SWIMSTARTS App Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/254309469/Saloon-Appoinment-App-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/saloon-appointment.jpg" alt="Saloon Appoinment App Design" loading="lazy"></div><div class="reel-meta"><h3>Saloon Appoinment App Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/239739021/App-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/app-design.jpg" alt="App Design" loading="lazy"></div><div class="reel-meta"><h3>App Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/230099023/Ux-case-study-Greenify" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/greenify.jpg" alt="Ux case study - Greenify" loading="lazy"></div><div class="reel-meta"><h3>Ux case study - Greenify</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/254346735/Prototyping-Flex" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/prototyping-flex.jpg" alt="Prototyping Flex" loading="lazy"></div><div class="reel-meta"><h3>Prototyping Flex</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/240996213/Web-Dashboard-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/web-dashboard.jpg" alt="Web Dashboard Design" loading="lazy"></div><div class="reel-meta"><h3>Web Dashboard Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/241090125/App-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/app-design-2.jpg" alt="App Design" loading="lazy"></div><div class="reel-meta"><h3>App Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/232179511/Website-Ui-Text-Humanizer-Pro" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/text-humanizer-pro.jpg" alt="Website Ui - Text Humanizer Pro" loading="lazy"></div><div class="reel-meta"><h3>Website Ui - Text Humanizer Pro</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/216166053/Web-Landing-Page" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/web-landing-page.jpg" alt="Web Landing Page" loading="lazy"></div><div class="reel-meta"><h3>Web Landing Page</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/230560862/Admin-Dashboard-UI" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/admin-dashboard.jpg" alt="Admin Dashboard UI" loading="lazy"></div><div class="reel-meta"><h3>Admin Dashboard UI</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/219131211/Landing-Page-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/landing-page-design.jpg" alt="Landing Page Design" loading="lazy"></div><div class="reel-meta"><h3>Landing Page Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/229078681/Dashboard-UI" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/dashboard-ui.jpg" alt="Dashboard UI" loading="lazy"></div><div class="reel-meta"><h3>Dashboard UI</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/219412881/Cart-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/cart-design.jpg" alt="Cart Design" loading="lazy"></div><div class="reel-meta"><h3>Cart Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/215216043/Landing-page-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/landing-page-design-2.jpg" alt="Landing page Design" loading="lazy"></div><div class="reel-meta"><h3>Landing page Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/208011325/Logo-and-Business-card-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/logo-business-card.jpg" alt="Logo and Business card Design" loading="lazy"></div><div class="reel-meta"><h3>Logo and Business card Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/214790373/Web-Login-Page-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/web-login-page.jpg" alt="Web Login Page Design" loading="lazy"></div><div class="reel-meta"><h3>Web Login Page Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/208015521/Logo-and-Business-Card-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/logo-business-card-2.jpg" alt="Logo and Business Card Design" loading="lazy"></div><div class="reel-meta"><h3>Logo and Business Card Design</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/205732067/Product-Manipulation" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/product-manipulation.jpg" alt="Product Manipulation" loading="lazy"></div><div class="reel-meta"><h3>Product Manipulation</h3><span>Behance ↗</span></div></a>
+            <a class="reel-card" href="https://www.behance.net/gallery/205731807/Social-media-post-Design" target="_blank" rel="noreferrer"><div class="reel-shot"><img src="behance/social-media-post.jpg" alt="Social media post Design" loading="lazy"></div><div class="reel-meta"><h3>Social media post Design</h3><span>Behance ↗</span></div></a>
+          </div>
+        </div>
+        <div class="wrap reel-cta reveal"><a class="btn" href="https://www.behance.net/sahilkhancit" target="_blank" rel="noreferrer" data-magnetic>See everything on Behance ↗</a></div>
+      </section>
+
+      <section id="process">
+  <div class="wrap">
+    <div class="section-head reveal from-left">
+      <div>
+        <div class="kicker">How I work</div>
+        <h2>A clear process,<br>no guesswork.</h2>
+      </div>
+      <p class="section-intro">Every project moves from understanding to delivery, with checkpoints so clients, PMs and developers always know what comes next.</p>
+    </div>
+
+    <ol class="process">
+      <li class="step reveal scale-in d1">
+        <span class="step-num">01</span>
+        <h3>Discover</h3>
+        <p>Understand the business goal, the users and the constraints before opening Figma.</p>
+        <ul><li>Stakeholder talks</li><li>UX research</li><li>Audit</li></ul>
+      </li>
+      <li class="step reveal scale-in d2">
+        <span class="step-num">02</span>
+        <h3>Define</h3>
+        <p>Turn messy requirements into structure: who does what, in which order, and why.</p>
+        <ul><li>User flows</li><li>Information architecture</li><li>Wireframes</li></ul>
+      </li>
+      <li class="step reveal scale-in d3">
+        <span class="step-num">03</span>
+        <h3>Design</h3>
+        <p>High-fidelity UI built on reusable components, then validated with clickable prototypes.</p>
+        <ul><li>Hi-fi UI</li><li>Design system</li><li>Prototypes</li></ul>
+      </li>
+      <li class="step reveal scale-in d4">
+        <span class="step-num">04</span>
+        <h3>Deliver</h3>
+        <p>Clean, annotated handoff and close work with developers until it ships as designed.</p>
+        <ul><li>Dev handoff</li><li>Specs</li><li>QA support</li></ul>
+      </li>
+    </ol>
+  </div>
+</section>
+
       <section id="experience">
         <div class="wrap">
           <div class="section-head reveal from-left">
@@ -1691,61 +1865,6 @@
         </div>
       </section>
 
-      <section>
-        <div class="wrap">
-          <div class="section-head reveal from-left">
-            <div>
-              <div class="kicker">Proof of work</div>
-              <h2>Built through<br>real delivery.</h2>
-            </div>
-          </div>
-          <div class="numbers">
-            <div class="number-card reveal scale-in d1" data-tilt><div class="number">3+</div><p>Years designing web, mobile and SaaS products.</p><div class="glare"></div></div>
-            <div class="number-card reveal scale-in d2" data-tilt><div class="number">20+</div><p>Five-star reviews from international Fiverr clients.</p><div class="glare"></div></div>
-            <div class="number-card reveal scale-in d3" data-tilt><div class="number">35+</div><p>International freelance projects completed.</p><div class="glare"></div></div>
-          </div>
-        </div>
-      </section>
-
-      <section id="process">
-  <div class="wrap">
-    <div class="section-head reveal from-left">
-      <div>
-        <div class="kicker">How I work</div>
-        <h2>A clear process,<br>no guesswork.</h2>
-      </div>
-      <p class="section-intro">Every project moves from understanding to delivery, with checkpoints so clients, PMs and developers always know what comes next.</p>
-    </div>
-
-    <ol class="process">
-      <li class="step reveal scale-in d1">
-        <span class="step-num">01</span>
-        <h3>Discover</h3>
-        <p>Understand the business goal, the users and the constraints before opening Figma.</p>
-        <ul><li>Stakeholder talks</li><li>UX research</li><li>Audit</li></ul>
-      </li>
-      <li class="step reveal scale-in d2">
-        <span class="step-num">02</span>
-        <h3>Define</h3>
-        <p>Turn messy requirements into structure: who does what, in which order, and why.</p>
-        <ul><li>User flows</li><li>Information architecture</li><li>Wireframes</li></ul>
-      </li>
-      <li class="step reveal scale-in d3">
-        <span class="step-num">03</span>
-        <h3>Design</h3>
-        <p>High-fidelity UI built on reusable components, then validated with clickable prototypes.</p>
-        <ul><li>Hi-fi UI</li><li>Design system</li><li>Prototypes</li></ul>
-      </li>
-      <li class="step reveal scale-in d4">
-        <span class="step-num">04</span>
-        <h3>Deliver</h3>
-        <p>Clean, annotated handoff and close work with developers until it ships as designed.</p>
-        <ul><li>Dev handoff</li><li>Specs</li><li>QA support</li></ul>
-      </li>
-    </ol>
-  </div>
-</section>
-
       <section id="skills">
         <div class="wrap">
           <div class="section-head reveal from-left">
@@ -1802,6 +1921,19 @@
         </div>
       </section>
 
+      <section id="reviews">
+        <div class="wrap">
+          <div class="section-head reveal from-left">
+            <div>
+              <div class="kicker">Client love</div>
+              <h2>Faces behind<br>the five stars.</h2>
+            </div>
+            <p class="section-intro">Real words from international clients. Hover a face (or tap on mobile) to read what they said.</p>
+          </div>
+          <div class="faces reveal" id="faces" aria-label="Client reviews"></div>
+        </div>
+      </section>
+
       <section id="contact">
         <div class="wrap">
           <div class="contact reveal scale-in">
@@ -1843,7 +1975,7 @@
       var nav = document.getElementById('nav');
       var orb = document.querySelector('.orb-stage');
       var navLinks = document.querySelectorAll('[data-nav]');
-      var sections = ['impact','work','experience','process','skills','contact'].map(function(id){ return document.getElementById(id); }).filter(Boolean);
+      var sections = ['impact','work','reel','process','experience','skills','reviews','contact'].map(function(id){ return document.getElementById(id); }).filter(Boolean);
       var impactLines = document.querySelectorAll('.impact-line');
 
       /* ============ 1. Pure Smooth Scroll Engine (Lenis) ============ */
@@ -2452,6 +2584,183 @@
       }
 
       initStarfield();
+    })();
+  </script>
+  <script>
+    (function(){
+      var track = document.querySelector('.reel-track');
+      if(!track) return;
+      // Duplicate cards for a seamless loop
+      Array.prototype.slice.call(track.children).forEach(function(card){
+        var c = card.cloneNode(true);
+        c.setAttribute('aria-hidden','true'); c.tabIndex = -1;
+        track.appendChild(c);
+      });
+
+      // Auto-slide + drag (JS-driven so dragging and the loop share one position)
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var reel = track.parentNode, kids = track.children, n = kids.length / 2;
+      var x = 0, half = 1, vel = 0, dragging = false, started = false, hover = false, visible = true;
+      var factor = 1, base = 48, startX = 0, lastX = 0, lastT = 0, suppress = false, prev = 0;
+
+      function measure(){ half = kids[n].offsetLeft - kids[0].offsetLeft || 1; }
+      function render(){ x = ((x % half) + half) % half; track.style.transform = 'translate3d(' + (-x) + 'px,0,0)'; }
+
+      function tick(t){
+        var dt = Math.min((t - prev) / 1000, .05); prev = t;
+        if(visible){
+          if(!dragging){
+            factor += ((hover ? 0 : 1) - factor) * Math.min(1, dt * 5);
+            x += base * factor * dt + vel * dt;
+            vel *= Math.pow(.02, dt);               // inertia fades out
+            if(Math.abs(vel) < 1) vel = 0;
+          }
+          render();
+        }
+        requestAnimationFrame(tick);
+      }
+
+      reel.addEventListener('pointerenter', function(e){ if(e.pointerType === 'mouse') hover = true; });
+      reel.addEventListener('pointerleave', function(e){ if(e.pointerType === 'mouse') hover = false; });
+
+      reel.addEventListener('pointerdown', function(e){
+        if(e.pointerType === 'mouse' && e.button !== 0) return;
+        dragging = true; started = false; suppress = false;
+        startX = lastX = e.clientX; lastT = performance.now(); vel = 0;
+      });
+      reel.addEventListener('pointermove', function(e){
+        if(!dragging) return;
+        if(!started){
+          if(Math.abs(e.clientX - startX) < 6) return;
+          started = true; suppress = true;
+          reel.classList.add('dragging');
+          try{ reel.setPointerCapture(e.pointerId); }catch(_){}
+        }
+        var now = performance.now(), dx = e.clientX - lastX, dt = Math.max((now - lastT) / 1000, .001);
+        x -= dx; render();
+        vel = vel * .6 + (-dx / dt) * .4;           // smoothed release velocity
+        lastX = e.clientX; lastT = now;
+      });
+      function end(e){
+        if(!dragging) return;
+        dragging = false; reel.classList.remove('dragging');
+        if(started){ try{ reel.releasePointerCapture(e.pointerId); }catch(_){} }
+        if(performance.now() - lastT > 80) vel = 0;  // held still before release
+        vel = Math.max(-2500, Math.min(2500, vel));
+      }
+      reel.addEventListener('pointerup', end);
+      reel.addEventListener('pointercancel', end);
+      reel.addEventListener('dragstart', function(e){ e.preventDefault(); });
+      // a drag must not open the Behance link under the cursor
+      reel.addEventListener('click', function(e){
+        if(suppress){ e.preventDefault(); e.stopPropagation(); suppress = false; }
+      }, true);
+
+      if('IntersectionObserver' in window){
+        new IntersectionObserver(function(en){ visible = en[0].isIntersecting; }).observe(reel);
+      }
+      window.addEventListener('resize', measure);
+      window.addEventListener('load', measure);
+      measure(); requestAnimationFrame(tick);
+    })();
+  </script>
+  <script>
+    (function(){
+      var box = document.getElementById('faces');
+      if(!box) return;
+      // Client testimonials from international Fiverr clients. All are 5-star reviews.
+      var R = [
+        {name:'Daniel Smith',   country:'United States',   flag:'🇺🇸', gender:'Male',   h:'short',  s:'#d4d4d4', k:['Deep understanding','Politeness','Proactive communication'], t:"Sahil, who has been helping with the UI design process, really made me feel confident about choosing him. He doesn't just focus on completing tasks; he genuinely cares about understanding and bringing your vision to life. Communication has been excellent, and everything has been delivered on time. The first phase has been a great experience, and I'm happy with the collaboration."},
+        {name:'Ahmed Hassan',   country:'Egypt',           flag:'🇪🇬', gender:'Male',   h:'long',   s:'#bdbdbd', t:"I'm building my app step by step with this developer, and the experience has been really positive so far. Communication is always professional, clear, and timely. He understands my ideas, pays close attention to every phase, and is always willing to make improvements based on my feedback. His organized workflow and technical knowledge give me confidence in the project. Excited to continue working together. Highly recommended!"},
+        {name:'Sophia Williams',country:'United Kingdom',  flag:'🇬🇧', gender:'Female', h:'cap',    s:'#9c9c9c', k:['Quick responsiveness'], t:"Sahil's response time is impressive! I never had to wait more than 30 minutes to hear back. He's very responsive, attentive, and easy to communicate with."},
+        {name:'Liam Wilson',    country:'Australia',       flag:'🇦🇺', gender:'Male',   h:'bun',    s:'#d4d4d4', k:['Level of cooperation','Politeness','Proactive communication'], t:"Sahil is great to work with. His communication is excellent, he pays attention to the smallest details, and he's always open to discussing ideas and finding practical solutions. Overall, a great experience."},
+        {name:'Emma Schneider', country:'Germany',         flag:'🇩🇪', gender:'Female', h:'curly',  s:'#8a8a8a', k:['Quick responsiveness','Politeness','Level of cooperation'], t:"A very professional developer with excellent communication throughout the project. Sahil has handled everything smoothly, and I appreciate his dedication. I would definitely consider working with him again."},
+        {name:'Arjun Sharma',   country:'India',           flag:'🇮🇳', gender:'Male',   h:'short',  s:'#d4d4d4', b:1, k:['Deep understanding','Quick responsiveness','Delivery time'], t:"I've been purchasing services on Fiverr for more than 15 years and have completed over 600 orders. From my experience, Sahil is easily among the top 10 sellers I've worked with. His professionalism, attention to detail, communication, and flexibility in understanding my requirements really stand out. Definitely one of my strongest recommendations."},
+        {name:'Olivia Chen',    country:'Singapore',       flag:'🇸🇬', gender:'Female', h:'long',   s:'#9c9c9c', k:['Delivery time','Deep understanding','Quick responsiveness'], t:"Sahil was very patient and understanding throughout the process. I really appreciate how he listened to my ideas and worked closely with me to turn my vision into the final product. Great experience!"},
+        {name:'Lucas Martin',   country:'France',          flag:'🇫🇷', gender:'Male',   h:'bald',   s:'#bdbdbd', g:1, t:"The delivery has been excellent so far. Sahil understood the requirements clearly and was quick to apply the feedback and changes I suggested. Really happy with his work and overall approach."},
+        {name:'Ayesha Rahman',  country:'Pakistan',        flag:'🇵🇰', gender:'Female', h:'bun',    s:'#9c9c9c', k:['Delivery time','Language fluency','Went above and beyond'], t:"Sahil is very professional and approachable. He's easy to communicate with, understands what you need, and works incredibly fast. The overall experience has been even better than I expected. Definitely satisfied with his service!"},
+        {name:'Omar Khalid',    country:'Saudi Arabia',    flag:'🇸🇦', gender:'Male',   h:'cap',    s:'#d4d4d4', t:"Honestly, Sahil is one of the best sellers I've worked with on Fiverr. My order is part of a large and complex project, but he has been managing each stage professionally and keeping me informed throughout the process. His step-by-step approach makes everything easier to understand. I highly recommend his services. Thank you for the great effort!"},
+        {name:'Rayan Ahmed',    country:'Bangladesh',      flag:'🇧🇩', gender:'Male',   h:'curly',  s:'#bdbdbd', t:"Once Sahil fully understands your requirements, he puts in the effort to deliver beyond expectations. He's attentive, dedicated, and committed to getting things right. Highly recommended!"},
+        {name:'Maria Garcia',   country:'Spain',           flag:'🇪🇸', gender:'Female', h:'bald',   s:'#8a8a8a', b:1, k:['Level of cooperation','Deep understanding','Language fluency'], t:"It's been a pleasure working with Sahil, and I'm looking forward to collaborating with him on more projects in the future. Great communication, smooth cooperation, and a positive overall experience!"},
+        {name:'Kenji Tanaka',   country:'Japan',           flag:'🇯🇵', gender:'Male',   h:'short',  s:'#9c9c9c', g:1, t:"Sahil is great to work with! His work quality and overall performance have been impressive. I really appreciate his dedication and effort throughout the project."}
+      ];
+      var NS = 'http://www.w3.org/2000/svg';
+      function face(r, i){
+        var hair = i % 3 === 0 ? '#e9e9e9' : (i % 3 === 1 ? '#161616' : '#5a5a5a');
+        var back = r.h === 'long' ? '<path d="M29 46C26 16 74 16 71 46L74 78H26Z" fill="'+hair+'"/>' : '';
+        var top = {
+          short:'<path d="M33 40C32 22 68 22 67 40C62 31 38 31 33 40Z" fill="'+hair+'"/>',
+          long: '<path d="M33 40C34 24 66 24 67 40C60 32 40 32 33 40Z" fill="'+hair+'"/>',
+          bun:  '<path d="M33 40C32 22 68 22 67 40C62 31 38 31 33 40Z" fill="'+hair+'"/><circle cx="50" cy="19" r="8" fill="'+hair+'"/>',
+          cap:  '<path d="M32 40C31 20 69 20 68 40Z" fill="'+hair+'"/><rect x="29" y="38" width="42" height="5" rx="2.5" fill="'+hair+'"/>',
+          curly:'<g fill="'+hair+'"><circle cx="36" cy="30" r="8"/><circle cx="46" cy="24" r="8"/><circle cx="56" cy="24" r="8"/><circle cx="65" cy="31" r="8"/></g>',
+          bald: ''
+        }[r.h];
+        var beard = r.b ? '<path d="M33 48C33 66 67 66 67 48C62 58 38 58 33 48Z" fill="'+(i%2?'#2a2a2a':'#6a6a6a')+'" opacity=".9"/>' : '';
+        var glasses = r.g ? '<g fill="none" stroke="#161616" stroke-width="1.6"><circle cx="43" cy="44" r="5.5"/><circle cx="57" cy="44" r="5.5"/><path d="M48.5 44h3"/></g>' : '';
+        return '<svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="#303030"/>'
+          + back
+          + '<path d="M12 100C12 76 30 68 50 68S88 76 88 100Z" fill="'+(i%2?'#7a7a7a':'#5e5e5e')+'"/>'
+          + '<rect x="44" y="58" width="12" height="14" rx="5" fill="'+r.s+'"/>'
+          + '<ellipse cx="50" cy="44" rx="17" ry="20" fill="'+r.s+'"/>'
+          + beard + top
+          + '<circle cx="43" cy="44" r="1.8" fill="#161616"/><circle cx="57" cy="44" r="1.8" fill="#161616"/>'
+          + glasses
+          + '<path d="M44 53Q50 58 56 53" fill="none" stroke="#161616" stroke-width="1.8" stroke-linecap="round"/></svg>';
+      }
+      R.forEach(function(r, i){
+        var f = document.createElement('div'); f.className = 'face';
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'face-btn';
+        b.setAttribute('aria-label', 'Read client review ' + (i + 1)); b.innerHTML = face(r, i);
+        var c = document.createElement('div'); c.className = 'face-card'; c.setAttribute('role', 'tooltip');
+        var p = document.createElement('p');
+        ('“' + r.t + '”').split(/(Sahil)/).forEach(function(part){
+          if(part === 'Sahil'){ var em = document.createElement('mark'); em.className = 'name-hl'; em.textContent = part; p.appendChild(em); }
+          else if(part){ p.appendChild(document.createTextNode(part)); }
+        });
+        var meta = document.createElement('div'); meta.className = 'face-meta';
+        meta.innerHTML = '<strong class="face-name">' + r.name + '</strong> <span class="face-flag">' + r.flag + '</span><span class="face-geo">' + r.country + '</span>';
+        var m = document.createElement('small');
+        m.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="#1d9bf0" d="M12 1.6l2.6 1.9 3.2-.1 1 3 2.6 1.9-1 3 1 3-2.6 1.9-1 3-3.2-.1L12 22.4l-2.6-1.9-3.2.1-1-3-2.6-1.9 1-3-1-3 2.6-1.9 1-3 3.2.1z"/><path fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M7.8 12.3l2.9 2.9 5.6-5.7"/></svg><span>Verified client · 5.0</span>';
+        var top = document.createElement('div'); top.className = 'face-top';
+        top.appendChild(m);
+        c.appendChild(top);
+        c.appendChild(p);
+        if(r.k && r.k.length){
+          var ch = document.createElement('div'); ch.className = 'face-chips';
+          r.k.forEach(function(k){ var sp = document.createElement('span'); sp.textContent = k; ch.appendChild(sp); });
+          c.appendChild(ch);
+        }
+        c.appendChild(meta);
+        f.appendChild(b); f.appendChild(c); box.appendChild(f);
+      });
+
+      function place(f){
+        var c = f.querySelector('.face-card');
+        f.classList.remove('below'); c.style.setProperty('--dx', '0px');
+        var hr = f.getBoundingClientRect(), cw = c.offsetWidth, ch = c.offsetHeight;
+        var vw = document.documentElement.clientWidth, pad = 12;
+        var left = hr.left + hr.width / 2 - cw / 2, dx = 0;
+        if(left < pad) dx = pad - left; else if(left + cw > vw - pad) dx = vw - pad - (left + cw);
+        c.style.setProperty('--dx', dx + 'px');
+        if(hr.top - 80 < ch + 16 && innerHeight - hr.bottom > hr.top) f.classList.add('below');
+      }
+      function closeAll(except){
+        box.querySelectorAll('.face.open').forEach(function(x){ if(x !== except) x.classList.remove('open'); });
+      }
+      box.querySelectorAll('.face').forEach(function(f){
+        f.addEventListener('pointerenter', function(){ place(f); });
+        f.querySelector('.face-btn').addEventListener('focus', function(){ place(f); });
+        f.querySelector('.face-btn').addEventListener('click', function(e){
+          if(e.pointerType === 'mouse') return;          // desktop uses hover
+          var open = f.classList.contains('open');
+          closeAll(); if(!open){ place(f); f.classList.add('open'); }
+          e.stopPropagation();
+        });
+      });
+      document.addEventListener('click', function(e){ if(!e.target.closest('.face')) closeAll(); });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeAll(); });
+      window.addEventListener('resize', closeAll);
     })();
   </script>
   <script src="loader.js"></script>
