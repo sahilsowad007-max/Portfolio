@@ -191,6 +191,29 @@
     }
     .navcta:hover{background:#DADADA;color:var(--bg);box-shadow:0 0 24px rgba(255,255,255,.18)}
 
+    /* ---------- Mobile nav toggle (base, hidden on desktop) ---------- */
+    .nav-toggle{
+      display:none;
+      width:40px;height:40px;border-radius:50%;
+      border:1px solid var(--line);background:rgba(255,255,255,.06);
+      color:var(--text);cursor:pointer;align-items:center;justify-content:center;
+      position:relative;z-index:60;transition:background .3s,border-color .3s;
+    }
+    .nav-toggle:hover{border-color:var(--accent);background:rgba(255,255,255,.12)}
+    .nav-toggle span{
+      position:absolute;width:20px;height:1px;background:currentColor;top:50%;left:50%;transform:translate(-50%,-50%);
+      transition:background .2s;
+    }
+    .nav-toggle span:before,.nav-toggle span:after{
+      content:"";position:absolute;width:20px;height:1px;background:currentColor;left:0;
+      transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .3s;
+    }
+    .nav-toggle span:before{top:-7px}
+    .nav-toggle span:after{top:7px}
+    .nav-toggle.active span{background:transparent}
+    .nav-toggle.active span:before{transform:translateY(7px) rotate(45deg)}
+    .nav-toggle.active span:after{transform:translateY(-7px) rotate(-45deg)}
+
     .hero{min-height:100vh;display:grid;place-items:center;padding:150px 0 90px;position:relative;overflow:hidden}
     .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:60px;align-items:center;position:relative;z-index:2}
     .eyebrow{display:inline-flex;align-items:center;gap:9px;color:#D6D6D6;font-size:12px;text-transform:uppercase;letter-spacing:.14em;margin-bottom:25px;font-weight:700}
@@ -1200,9 +1223,252 @@
       .project{min-height:340px}
       .contact{padding:30px}
     }
-    @media(prefers-reduced-motion:reduce){
-      *,*:before,*:after{animation-duration:.01ms !important;transition-duration:.01ms !important}
-      .orbit-ring,.orbit-chip > i{animation:none}
+    /* ---------- Mobile nav toggle (shown below 900px) ---------- */
+    @media (max-width: 900px) {
+      .nav {
+        justify-content: flex-start;
+        gap: 14px;
+      }
+      .nav-toggle {
+        display: grid;
+        place-items: center;
+      }
+      .navcta {
+        margin-left: auto;
+      }
+    }
+
+    /* ---------- Mobile menu side drawer ---------- */
+    .mobile-menu-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 54;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.4s ease, visibility 0.4s;
+    }
+    .mobile-menu-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: min(72vw, 400px);
+      max-width: 400px;
+      z-index: 55;
+      background: rgba(12, 12, 12, 0.96);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-right: 1px solid var(--line);
+      box-shadow: 20px 0 60px rgba(0, 0, 0, 0.35);
+      transform: translateX(-100%);
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+      pointer-events: auto;
+    }
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+    .mobile-menu-close {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      line-height: 1;
+      z-index: 60;
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
+    }
+    .mobile-menu-close:hover {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .mobile-menu-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      align-items: flex-start;
+      width: 100%;
+      padding: 16px 24px;
+    }
+    .mobile-menu-links a {
+      color: var(--muted);
+      font-size: 17px;
+      font-weight: 600;
+      padding: 14px 0;
+      width: 100%;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      transition: color 0.3s, background 0.3s;
+    }
+    .mobile-menu-links a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .mobile-menu-links a:last-child {
+      border-bottom: none;
+    }
+    .mobile-menu-cta {
+      margin-top: auto;
+      padding: 14px 24px 26px;
+      display: inline-block;
+      width: fit-content;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 800;
+      font-size: 13px;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s, transform 0.3s;
+    }
+    .mobile-menu-cta:hover {
+      background: #DADADA;
+      transform: translateY(-2px);
+    }
+
+    /* ---------- Refined breakpoints: mini screen to big screen ---------- */
+    @media (max-width: 1024px) {
+      .hero { padding-top: 140px; }
+      .hero-grid { gap: 40px; }
+      .ux3d-stage { height: 460px; }
+      .services { gap: 12px; }
+      .projects { gap: 14px; }
+      .contact { padding: 56px; min-height: 480px; }
+      section { padding: 100px 0; }
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .ux3d-stage { height: 400px; }
+      .ux3d-word { font-size: 125px; }
+      .ux3d-grid { width: 340px; height: 340px; }
+      .services { grid-template-columns: 1fr; }
+      .projects { grid-template-columns: 1fr; }
+      .project.large { grid-column: span 1; }
+      .job { flex-basis: min(86vw, 640px); }
+      .numbers, .skills { grid-template-columns: 1fr; }
+      .contact { padding: 42px; min-height: 450px; }
+      .contact-orbit { opacity: 0.5; }
+      .navlinks { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 130px 0 80px; }
+      h1 { font-size: clamp(40px, 10vw, 72px); }
+      .hero-copy { font-size: 16px; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .hero-actions .btn { width: fit-content; }
+      .meta-row { gap: 18px; flex-wrap: wrap; }
+      .section-head { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .section-intro { max-width: 100%; }
+      .impact-layout { grid-template-columns: 1fr; gap: 40px; }
+      .impact-portrait { position: static; top: auto; order: -1; width: min(100%, 420px); margin: 0 auto; }
+      .impact-line { grid-template-columns: 45px 1fr; gap: 16px; padding: 24px 14px; margin: 0 -14px; }
+      .impact-line:is(:hover,:focus-visible,.is-hovered) { padding-left: 20px; padding-right: 20px; }
+      .impact-layout .impact-line p { font-size: 22px; }
+      .process { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .skills { gap: 12px; }
+      .contact { padding: 36px; min-height: auto; }
+    }
+
+    @media (max-width: 640px) {
+      .ux3d-stage { height: 390px; }
+      .ux3d-scene { scale: 0.68; }
+      .ux3d-word { font-size: 110px; }
+      .ux3d-slash { font-size: 110px; }
+      .ux3d-grid { width: 280px; height: 280px; }
+      .ux3d-orbit.orbit-equator { width: 360px; height: 360px; margin-left: -180px; margin-top: -180px; }
+      .ux3d-orbit.orbit-polar { width: 320px; height: 320px; margin-left: -160px; margin-top: -160px; }
+      .ux3d-orbit.orbit-diagonal { width: 280px; height: 280px; margin-left: -140px; margin-top: -140px; }
+      .section-head h2 { font-size: clamp(30px, 8vw, 48px); }
+      .contact { padding: 30px; }
+      .contact-orbit { display: none; }
+      .numbers .number { font-size: 44px; }
+      .reel-card { width: 260px; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: min(calc(100% - 28px), var(--max)); }
+      .nav { width: calc(100% - 20px); }
+      .hero { padding-top: 120px; }
+      .hero-copy { font-size: 15px; }
+      .meta-row { gap: 18px; flex-wrap: wrap; }
+      .timeline-track { gap: 12px; padding: 18px 4px 24px; }
+      .job { flex-basis: 88vw; min-height: 320px; padding: 25px 22px; grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; gap: 15px; }
+      .job-date { grid-column: 1; }
+      .job-role { grid-column: 1; grid-row: 3; justify-self: start; }
+      .job ul { font-size: 12px; }
+      .ux3d-stage { height: 330px; }
+      .ux3d-word { font-size: 92px; }
+      .ux3d-word.ux { left: 8%; }
+      .ux3d-word.ui { right: 8%; }
+      .ux3d-slash { font-size: 90px; }
+      .ux3d-grid { width: 280px; height: 280px; }
+      .ux3d-orbit.orbit-equator { width: 290px; height: 110px; }
+      .ux3d-orbit.orbit-polar { width: 260px; height: 90px; }
+      .ux3d-orbit.orbit-diagonal { width: 230px; height: 70px; }
+      .ux3d-label { font-size: 7px; }
+      section { padding: 85px 0; }
+      .section-head { display: block; }
+      .section-intro { margin-top: 16px; }
+      .project { min-height: 340px; }
+      .contact { padding: 30px; }
+      .impact-portrait { width: min(100%, 340px); }
+      .impact-line p { font-size: 20px; }
+      .process { grid-template-columns: 1fr; }
+      .process h3 { margin-top: 24px; }
+      .reel-card { width: 260px; }
+      .face-btn { width: 76px; height: 76px; }
+      .faces { gap: 26px 18px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 110px 0 70px; }
+      h1 { font-size: clamp(34px, 12vw, 56px); }
+      .hero-copy { font-size: 14px; }
+      .hero-actions .btn { width: 100%; text-align: center; }
+      .meta-row { flex-direction: column; gap: 10px; align-items: flex-start; }
+      .meta-row > div { width: 100%; }
+      .impact-line { grid-template-columns: 40px 1fr; gap: 12px; padding: 20px 12px; margin: 0 -12px; }
+      .impact-number { font-size: 11px; }
+      .impact-layout .impact-line p { font-size: 18px; }
+      .impact-portrait { width: min(100%, 300px); aspect-ratio: auto; }
+      .impact-portrait-card { aspect-ratio: auto; border-radius: 20px; }
+      .contact h2 { font-size: clamp(24px, 8vw, 34px); }
+      .contact { padding: 24px; }
+      .section-head h2 { font-size: clamp(26px, 9vw, 40px); }
+      .process { gap: 10px; }
+      .step { padding: 24px; }
+      .step h3 { font-size: 20px; margin-top: 28px; }
+      .skills { gap: 10px; }
+      .skillbox { padding: 24px; }
+      .skillbox h3 { font-size: 18px; margin-bottom: 14px; }
+      .reel-card { width: 220px; }
+      .reel-card:nth-child(even) { margin-top: 18px; }
+      .face-btn { width: 68px; height: 68px; }
+      .footer { flex-direction: column; gap: 10px; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *:before, *:after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important }
+      .orbit-ring, .orbit-chip > i { animation: none }
     }
   </style>
 <base target="_blank">
@@ -1363,6 +1629,9 @@
   <div class="cursor-ring" id="cursorRing"></div>
 
   <nav class="nav" id="nav">
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+    </button>
     <a class="brand" href="#">SAHIL<span>.</span></a>
     <div class="navlinks">
       <a href="#impact" data-nav>Impact</a>
@@ -1376,6 +1645,23 @@
     </div>
     <a class="navcta" href="https://drive.google.com/file/d/1iwbK-OKLRN2dE-Tgjl9zfczfjTPur07t/view?usp=sharing" target="_blank" rel="noreferrer" data-magnetic>See Resume ↗</a>
   </nav>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <button class="mobile-menu-close" id="mobileMenuClose" type="button" aria-label="Close menu">✕</button>
+    <nav class="mobile-menu-links" aria-label="Main navigation">
+      <a href="#impact" data-nav>Impact</a>
+      <a href="#work" data-nav>Work</a>
+      <a href="#reel" data-nav>My Pixels</a>
+      <a href="#process" data-nav>Process</a>
+      <a href="#experience" data-nav>Experience</a>
+      <a href="#skills" data-nav>Skills</a>
+      <a href="#reviews" data-nav>Testimonial</a>
+      <a href="#contact" data-nav>Contact</a>
+    </nav>
+    <a class="mobile-menu-cta" href="https://drive.google.com/file/d/1iwbK-OKLRN2dE-Tgjl9zfczfjTPur07t/view?usp=sharing" target="_blank" rel="noreferrer">See Resume ↗</a>
+  </div>
+  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" aria-hidden="true"></div>
 
   <div id="smooth-wrapper">
     <main>
@@ -2231,6 +2517,51 @@
       window.addEventListener('resize', syncActiveNav, {passive:true});
       window.addEventListener('load', syncActiveNav);
       syncActiveNav();
+
+      /* ============ Mobile menu toggle ============ */
+      (function(){
+        var navToggle = document.getElementById('navToggle');
+        var mobileMenu = document.getElementById('mobileMenu');
+        var mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+        var mobileMenuClose = document.getElementById('mobileMenuClose');
+        var mobileMenuLinks = document.querySelectorAll('.mobile-menu-links a');
+        var isOpen = false;
+
+        function openMenu(){
+          isOpen = true;
+          navToggle.classList.add('active');
+          navToggle.setAttribute('aria-expanded', 'true');
+          mobileMenu.classList.add('open');
+          mobileMenuBackdrop.classList.add('open');
+          mobileMenu.setAttribute('aria-hidden', 'false');
+          mobileMenuBackdrop.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          if (lenis) lenis.stop();
+        }
+        function closeMenu(){
+          isOpen = false;
+          navToggle.classList.remove('active');
+          navToggle.setAttribute('aria-expanded', 'false');
+          mobileMenu.classList.remove('open');
+          mobileMenuBackdrop.classList.remove('open');
+          mobileMenu.setAttribute('aria-hidden', 'true');
+          mobileMenuBackdrop.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+          if (lenis) lenis.start();
+        }
+        if (navToggle) navToggle.addEventListener('click', function(e){
+          e.stopPropagation();
+          if (isOpen) closeMenu(); else openMenu();
+        });
+        if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMenu);
+        if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener('click', closeMenu);
+        mobileMenuLinks.forEach(function(a){
+          a.addEventListener('click', closeMenu);
+        });
+        document.addEventListener('keydown', function(e){
+          if (e.key === 'Escape' && isOpen) closeMenu();
+        });
+      })();
 
       /* ============ 4. 3D tilt cards with glare ============ */
       if(!prefersReduced && window.matchMedia('(hover:hover)').matches){
