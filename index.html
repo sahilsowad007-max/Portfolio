@@ -52,8 +52,11 @@
   </script>
   <link rel="stylesheet" href="loader.css" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900&display=swap" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
 
     :root{
       --bg:#0C0C0C;
@@ -1470,6 +1473,26 @@
       *, *:before, *:after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important }
       .orbit-ring, .orbit-chip > i { animation: none }
     }
+
+    /* ---------- Mobile polish: touch, tap targets, lighter effects ---------- */
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: 76px; }
+    a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    img { max-width: 100%; height: auto; }
+    .mobile-menu { overscroll-behavior: contain; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .mobile-menu-links a { min-height: 48px; display: flex; align-items: center; }
+    .mobile-menu-links a.active { color: var(--text); }
+    @media (max-width: 900px) {
+      html, body { overflow-x: clip; }
+      .nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+      .mobile-menu { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(14,14,14,.98); }
+      .mobile-menu-backdrop { backdrop-filter: none; -webkit-backdrop-filter: none; }
+      .ux3d-stage, .orb-stage { will-change: auto; }
+      .wrap { width: min(calc(100% - 32px), var(--max)); }
+    }
+    @media (max-width: 480px) {
+      .wrap { width: calc(100% - 28px); }
+      section { padding: 72px 0; }
+    }
   </style>
 <base target="_blank">
 </head>
@@ -1632,16 +1655,16 @@
     <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false">
       <span></span>
     </button>
-    <a class="brand" href="#">SAHIL<span>.</span></a>
+    <a class="brand" href="#" target="_self">SAHIL<span>.</span></a>
     <div class="navlinks">
-      <a href="#impact" data-nav>Impact</a>
-      <a href="#work" data-nav>Work</a>
-      <a href="#reel" data-nav>My Pixels</a>
-      <a href="#process" data-nav>Process</a>
-      <a href="#experience" data-nav>Experience</a>
-      <a href="#skills" data-nav>Skills</a>
-      <a href="#reviews" data-nav>Testimonial</a>
-      <a href="#contact" data-nav>Contact</a>
+      <a href="#impact" target="_self" data-nav>Impact</a>
+      <a href="#work" target="_self" data-nav>Work</a>
+      <a href="#reel" target="_self" data-nav>My Pixels</a>
+      <a href="#process" target="_self" data-nav>Process</a>
+      <a href="#experience" target="_self" data-nav>Experience</a>
+      <a href="#skills" target="_self" data-nav>Skills</a>
+      <a href="#reviews" target="_self" data-nav>Testimonial</a>
+      <a href="#contact" target="_self" data-nav>Contact</a>
     </div>
     <a class="navcta" href="https://drive.google.com/file/d/1iwbK-OKLRN2dE-Tgjl9zfczfjTPur07t/view?usp=sharing" target="_blank" rel="noreferrer" data-magnetic>See Resume ↗</a>
   </nav>
@@ -1650,14 +1673,14 @@
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <button class="mobile-menu-close" id="mobileMenuClose" type="button" aria-label="Close menu">✕</button>
     <nav class="mobile-menu-links" aria-label="Main navigation">
-      <a href="#impact" data-nav>Impact</a>
-      <a href="#work" data-nav>Work</a>
-      <a href="#reel" data-nav>My Pixels</a>
-      <a href="#process" data-nav>Process</a>
-      <a href="#experience" data-nav>Experience</a>
-      <a href="#skills" data-nav>Skills</a>
-      <a href="#reviews" data-nav>Testimonial</a>
-      <a href="#contact" data-nav>Contact</a>
+      <a href="#impact" target="_self" data-nav>Impact</a>
+      <a href="#work" target="_self" data-nav>Work</a>
+      <a href="#reel" target="_self" data-nav>My Pixels</a>
+      <a href="#process" target="_self" data-nav>Process</a>
+      <a href="#experience" target="_self" data-nav>Experience</a>
+      <a href="#skills" target="_self" data-nav>Skills</a>
+      <a href="#reviews" target="_self" data-nav>Testimonial</a>
+      <a href="#contact" target="_self" data-nav>Contact</a>
     </nav>
     <a class="mobile-menu-cta" href="https://drive.google.com/file/d/1iwbK-OKLRN2dE-Tgjl9zfczfjTPur07t/view?usp=sharing" target="_blank" rel="noreferrer">See Resume ↗</a>
   </div>
@@ -1881,8 +1904,8 @@
 
             <aside class="impact-portrait reveal from-right">
               <figure class="impact-portrait-card" tabindex="0" role="img" aria-label="Portrait of Sahil Sowad, UX/UI and product designer. Hover, focus, or tap to reveal the color portrait.">
-                <img class="dp-base" src="DP B.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-                <img class="dp-color" src="Dp.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <img class="dp-base" src="DP B.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <img class="dp-color" src="Dp.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
                 <div class="impact-portrait-meta">
                   <div>
                     <span class="impact-portrait-name">Sahil Sowad</span>
@@ -1931,8 +1954,8 @@
           <div class="projects">
             <a class="project large reveal scale-in" href="https://play.google.com/store/apps/details?id=com.valr.valr&pcampaignid=web_share" target="_blank" rel="noreferrer" data-tilt>
               <div class="project-bg">
-                <img class="top5-shot" src="VALRPRO B.png" alt="Valr Pro v2 app interface in black and white" loading="lazy" decoding="async">
-                <img class="top5-shot top5-shot--color" src="VALRPRO.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <img class="top5-shot" src="VALRPRO B.webp" alt="Valr Pro v2 app interface in black and white" loading="lazy" decoding="async">
+                <img class="top5-shot top5-shot--color" src="VALRPRO.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
               </div>
               <span class="project-year">2026</span>
               <div class="project-info">
@@ -1946,8 +1969,8 @@
 
             <a class="project reveal scale-in d1" href="https://www.cleftinject.org/" target="_blank" rel="noreferrer" data-tilt>
               <div class="project-bg">
-                <img class="top5-shot" src="CleftInject B.png" alt="CleftInject web interface in black and white" loading="lazy" decoding="async">
-                <img class="top5-shot top5-shot--color" src="CleftInject.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <img class="top5-shot" src="CleftInject B.webp" alt="CleftInject web interface in black and white" loading="lazy" decoding="async">
+                <img class="top5-shot top5-shot--color" src="CleftInject.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
               </div>
               <span class="project-year">2025</span>
               <div class="project-info">
@@ -1961,8 +1984,8 @@
 
             <a class="project top5 reveal scale-in d2" href="https://top5app.fr/" target="_blank" rel="noreferrer" data-tilt>
               <div class="project-bg">
-                <img class="top5-shot" src="Top5 black.jpg" alt="Top 5 app interface overview in black and white" loading="lazy" decoding="async">
-                <img class="top5-shot top5-shot--color" src="Top5.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <img class="top5-shot" src="Top5 black.webp" alt="Top 5 app interface overview in black and white" loading="lazy" decoding="async">
+                <img class="top5-shot top5-shot--color" src="Top5.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
               </div>
               <span class="project-year">2025</span>
               <div class="project-info">
@@ -1976,8 +1999,8 @@
 
             <a class="project reveal scale-in d1" href="https://www.d05eng.com/" target="_blank" rel="noreferrer" data-tilt>
               <div class="project-bg">
-                <img class="top5-shot" src="D05 B.png" alt="D05 web experience in black and white" loading="lazy" decoding="async">
-                <img class="top5-shot top5-shot--color" src="D05.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <img class="top5-shot" src="D05 B.webp" alt="D05 web experience in black and white" loading="lazy" decoding="async">
+                <img class="top5-shot top5-shot--color" src="D05.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
               </div>
               <span class="project-year">2025</span>
               <div class="project-info">
@@ -1991,8 +2014,8 @@
 
             <a class="project reveal scale-in d2" href="https://contentintegritypro.com/" target="_blank" rel="noreferrer" data-tilt>
               <div class="project-bg">
-                <img class="top5-shot" src="Content B.png" alt="Content Pro web interface in black and white" loading="lazy" decoding="async">
-                <img class="top5-shot top5-shot--color" src="Content.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                <img class="top5-shot" src="Content B.webp" alt="Content Pro web interface in black and white" loading="lazy" decoding="async">
+                <img class="top5-shot top5-shot--color" src="Content.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
               </div>
               <span class="project-year">2025</span>
               <div class="project-info">
@@ -2246,9 +2269,10 @@
   </div>
 
   <!-- Lenis pure smooth scroll engine -->
-  <script src="lenis.min.js"></script>
+  <!-- Touch devices use native momentum scrolling (smoother + lighter); Lenis only on desktop -->
   <script>
-    if (typeof Lenis === 'undefined') {
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       document.write('<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"><\/script>');
     }
   </script>
@@ -2360,33 +2384,33 @@
       }
 
       // Smooth anchor scrolling
+      // Scroll to a hash target (works with Lenis on desktop, native smooth scroll on touch)
+      function scrollToHash(href){
+        if (href === '#' || href === '#top') {
+          if (lenis) lenis.scrollTo(0, { duration: 1.2, force: true });
+          else window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+          history.replaceState(null, '', location.pathname + location.search);
+          return true;
+        }
+        var el = href.length > 1 ? document.querySelector(href) : null;
+        if (!el) return false;
+        var offset = window.innerWidth <= 900 ? 76 : 90;
+        if (lenis) {
+          lenis.scrollTo(el, { offset: -offset, duration: 1.2, force: true });
+        } else {
+          var y = el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0) - offset;
+          window.scrollTo({ top: Math.max(y, 0), behavior: prefersReduced ? 'auto' : 'smooth' });
+        }
+        history.replaceState(null, '', href);
+        return true;
+      }
+
+      // Header links (the mobile drawer handles its own links so it can close first)
       document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        if (a.closest('.mobile-menu')) return;
         a.addEventListener('click', function(e){
           var href = a.getAttribute('href');
-          if (!href) return;
-          if (href === '#' || href === '#top') {
-            e.preventDefault();
-            if (lenis) {
-              lenis.scrollTo(0, { duration: 1.2 });
-            } else {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-            history.replaceState(null, '', ' ');
-            return;
-          }
-          if (href.length > 1) {
-            var el = document.querySelector(href);
-            if (el) {
-              e.preventDefault();
-              if (lenis) {
-                lenis.scrollTo(el, { offset: -90, duration: 1.2 });
-              } else {
-                var y = el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0) - 90;
-                window.scrollTo({ top: Math.max(y, 0), behavior: 'smooth' });
-              }
-              history.replaceState(null, '', href);
-            }
-          }
+          if (href && scrollToHash(href)) e.preventDefault();
         });
       });
 
@@ -2555,9 +2579,19 @@
         });
         if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMenu);
         if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener('click', closeMenu);
+        // Close the drawer first (releases the scroll lock), then jump to the chosen section
         mobileMenuLinks.forEach(function(a){
-          a.addEventListener('click', closeMenu);
+          a.addEventListener('click', function(e){
+            var href = a.getAttribute('href');
+            e.preventDefault();
+            closeMenu();
+            requestAnimationFrame(function(){ scrollToHash(href); });
+          });
         });
+        // Leaving the mobile layout while the drawer is open should not leave scroll locked
+        window.addEventListener('resize', function(){
+          if (isOpen && window.innerWidth > 900) closeMenu();
+        }, { passive: true });
         document.addEventListener('keydown', function(e){
           if (e.key === 'Escape' && isOpen) closeMenu();
         });
@@ -2838,7 +2872,8 @@
         };
 
         var build = function(){
-          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          var small = window.innerWidth <= 900;
+          var dpr = small ? 1 : Math.min(window.devicePixelRatio || 1, 2);
           width = window.innerWidth;
           height = window.innerHeight;
           canvas.width = width * dpr;
@@ -2847,7 +2882,9 @@
           canvas.style.height = height + 'px';
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-          var count = Math.min(230, Math.round((width * height) / 9000));
+          var count = small
+            ? Math.min(70, Math.round((width * height) / 9000))
+            : Math.min(230, Math.round((width * height) / 9000));
           stars = Array.from({ length: count }, function(){
             return {
               x: Math.random() * width,
@@ -2889,6 +2926,13 @@
           animation = requestAnimationFrame(loop);
         };
 
+        // Stop drawing while the tab is in the background (saves battery on phones)
+        document.addEventListener('visibilitychange', function(){
+          if (reducedMotion.matches) return;
+          if (document.hidden) { cancelAnimationFrame(animation); animation = 0; }
+          else if (!animation) animation = requestAnimationFrame(loop);
+        });
+
         var reducedLoop = function(){
           draw(0); // single static frame, no animation
         };
@@ -2898,7 +2942,13 @@
           if (reducedMotion.matches) reducedLoop();
         };
 
-        window.addEventListener('resize', resize);
+        // Only rebuild on real width changes: mobile URL-bar show/hide fires resize constantly
+        var lastW = window.innerWidth;
+        window.addEventListener('resize', function(){
+          if (window.innerWidth === lastW) return;
+          lastW = window.innerWidth;
+          resize();
+        });
         window.addEventListener('pointermove', function(event){
           // normalize to -1..1 around center for the parallax offset
           pointer.x = (event.clientX / width - 0.5) * 58;
