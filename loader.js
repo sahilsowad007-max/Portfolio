@@ -1,3 +1,9 @@
+/*
+  Sahil Sowad Portfolio — loader.js
+  Copyright (c) 2026 Sahil Sowad. All rights reserved.
+  https://sahilsowad007-max.github.io/Portfolio/
+  Licensed under the MIT License (see LICENSE file).
+*/
 (function(){
   'use strict';
 
